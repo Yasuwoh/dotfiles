@@ -1,0 +1,22 @@
+#!/bin/env python
+
+import sys, os
+
+def main():
+	print(
+		getcmdname(
+			sys.argv[1:],
+			os.getenv( 'IGNORECOMMANDS', '').split()
+		)
+	)
+
+def getcmdname (argv, IGNORECOMMANDS = []):
+	for arg in argv:
+		for a in arg.split():
+			if a not in IGNORECOMMANDS:
+				return a
+	return '[command]'
+
+if __name__ == '__main__':
+	main()
+
