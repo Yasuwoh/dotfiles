@@ -181,7 +181,24 @@ case "${TERM}" in
 xterm|xterm-color|kterm|kterm-color)
     precmd() {
         echo -ne "\033]0;${USER}@${HOST%%.*}:${PWD}\007"
+		echo -ne "\ek`basename ${SHELL}`.\e\\"
     }
+
+	which getcmdname > /dev/null
+	if [ $? = 0 ] ; then
+		export IGNORECOMMANDS='sudo'
+		preexec() {
+			echo -ne "\ek`getcmdname $1`\e\\"
+		}
+	else
+		preexec() {
+			echo -ne "\ek`echo $1 | cut -d ' ' -f 1`\e\\"
+		}
+	fi
+
+	zshexit() {
+		echo -ne "\ek[dead]\e\\"
+	}
     ;;
 esac
 
@@ -189,3 +206,4 @@ esac
 ## load user .zshrc configuration file
 #
 [ -f ${HOME}/.zshrc.mine ] && source ${HOME}/.zshrc.mine
+
