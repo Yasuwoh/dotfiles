@@ -21,10 +21,12 @@ set incsearch
 set wrap
 set ruler
 set laststatus=2
-set mouse=a
+if exists ("mouse")
+	set mouse=a
+endif
 set ttymouse=xterm2
 set textwidth=0
-set statusline=%f%m%r%h%w\ %<<\%{getcwd()}>%=\ \[%ls,%c%V\—ñ]\[%{&ff}]\[%{&fileencoding}]%y
+set statusline=%f%m%r%h%w\ %<<\%{getcwd()}>%=\ \[%l,%c%V\]\[%{&ff}]\[%{&fileencoding}]%y
 nnoremap j gj
 nnoremap k gk
 nnoremap <C-L> :nohl<CR><C-L>
