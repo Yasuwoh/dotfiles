@@ -22,6 +22,7 @@ set wrap
 set ruler
 set laststatus=2
 set mouse=a
+set ttymouse=xterm2
 set textwidth=0
 set statusline=%f%m%r%h%w\ %<<\%{getcwd()}>%=\ \[%ls,%c%V\—ñ]\[%{&ff}]\[%{&fileencoding}]%y
 nnoremap j gj

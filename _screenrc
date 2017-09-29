@@ -28,6 +28,12 @@ hardcopy_append on
 # changes the filename userd for reading and writing with the past buffer
 bufferfile 'screen/screen-exchange'
 
+# enable alternate screen
+altscreen on
+
+# enable mouse tracking
+defmousetrack on
+
 # changes the kind of messages to the nethack-style
 nethack on
 
@@ -120,7 +126,7 @@ term xterm
 termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
 
 # don't resize terminal width when re-attached
-termcapinfo xterm 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
+termcapinfo xterm 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l:Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm:ti@:te@'
 
 # changes the windowlist format to suit caption/hardstatus
 windowlist title '%{u .g}Num Flags Title%=[0-9] select the number [movement] j,C-n:Down k,C-p:Up (C-)f:PageDown (C-)b:PageUp'
