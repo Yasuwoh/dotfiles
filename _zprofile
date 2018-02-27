@@ -4,4 +4,8 @@ fi
 
 export PATH
 
+if [ -f "$HOME/.pythonrc" ] ; then
+    export PYTHONSTARTUP="$HOME/.pythonrc"
+fi
+
 screen -D -RR
