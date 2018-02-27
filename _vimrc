@@ -9,6 +9,7 @@ set smartindent
 set history=50
 set backupdir=~/vimbackup
 set undodir=~/vimundo
+set expandtab
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
@@ -22,9 +23,9 @@ set wrap
 set ruler
 set laststatus=2
 if exists ("mouse")
-	set mouse=a
+    set mouse=a
+    set ttymouse=xterm2
 endif
-set ttymouse=xterm2
 set textwidth=0
 set statusline=%f%m%r%h%w\ %<<\%{getcwd()}>%=\ \[%l,%c%V\]\[%{&ff}]\[%{&fileencoding}]%y
 nnoremap j gj
