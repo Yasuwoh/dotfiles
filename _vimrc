@@ -7,8 +7,13 @@ syntax on
 set autoindent
 set smartindent
 set history=50
-set backupdir=~/.vimbackup
-set undodir=~/.vimundo
+if has('win32') || has('win64')
+    set backupdir=~/vimbackup
+    set undodir=~/vimundo
+else
+    set backupdir=~/.vimbackup
+    set undodir=~/.vimundo
+endif
 set expandtab
 set tabstop=4
 set softtabstop=4
@@ -33,13 +38,15 @@ nnoremap k gk
 nnoremap <C-L> :nohl<CR><C-L>
 
 
-set title
-if &term =~ '^screen'
-    set t_ts=k
-    set t_fs=\
-endif
+if !has('gui_running')
+    set title
+    if &term =~ '^screen'
+        set t_ts=k
+        set t_fs=\
+    endif
 
-set titlestring=%{GetTitleString()}
+    set titlestring=%{GetTitleString()}
+endif
 
 function! GetTitleString()
     " 各種フラグ
@@ -74,6 +81,3 @@ function! GetTitleString()
     endif
     return str
 endfunction
-
-
-
