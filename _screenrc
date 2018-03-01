@@ -35,6 +35,7 @@ altscreen on
 
 # enable mouse tracking
 defmousetrack on
+mousetrack on
 
 # changes the kind of messages to the nethack-style
 nethack on
