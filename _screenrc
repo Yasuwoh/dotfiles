@@ -134,7 +134,7 @@ bindkey "^[[21~" select 9
 bindkey "^[[23~" layout select 0
 bindkey "^[[24~" layout select 1
 layout autosave on
-source .screen/screen_layout
+source .screen/layout
 layout save def
 
 # mover cursor to begining of scrollback buffer (and move to the leftmost column of window top)
