@@ -81,3 +81,4 @@ function! GetTitleString()
     endif
     return str
 endfunction
+
