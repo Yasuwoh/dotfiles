@@ -1,6 +1,3 @@
-# Default Layout
-layout autosave on
-
 # Escape key is C-t, literal is t
 escape ^Tt
 
@@ -25,9 +22,10 @@ logfile 'screen/log/screenlog.%H.%Y-%m-%d-%02c:%s-%n.log'
 logtstamp on
 logtstamp string "\n-- SCREEN [%Y/%m/%d %02c:%s] %n:%t --\n'
 
-# changes the directory for hardcopy
+# changes the directory for hardcopy and bind ^H to hardcopy
 hardcopydir 'screen/hardcopy'
 hardcopy_append on
+bind ^Y hardcopy
 
 # changes the filename userd for reading and writing with the past buffer
 bufferfile 'screen/screen-exchange'
@@ -75,12 +73,22 @@ bind t focus top
 bind b focus bottom
 
 # continuos switch focus to other region (like vi)
-bind ^J eval 'focus down' 'command -c cfocus'
-bind ^K eval 'focus up'   'command -c cfocus'
+bind ^J eval 'focus down'  'command -c cfocus' 'echo "Entering region select mode."'
+bind ^K eval 'focus up'    'command -c cfocus' 'echo "Entering region select mode."'
+bind ^H eval 'focus left'  'command -c cfocus' 'echo "Entering region select mode."'
+bind ^L eval 'focus right' 'command -c cfocus' 'echo "Entering region select mode."'
 bind -c cfocus ^J eval 'focus down'   'command -c cfocus'
+bind -c cfocus  j eval 'focus down'   'echo "Exiting region select mode."'
 bind -c cfocus ^K eval 'focus up'     'command -c cfocus'
+bind -c cfocus  k eval 'focus up'     'echo "Exiting region select mode."'
+bind -c cfocus ^H eval 'focus left'   'command -c cfocus'
+bind -c cfocus  h eval 'focus left'   'echo "Exiting region select mode."'
+bind -c cfocus ^L eval 'focus right'  'command -c cfocus'
+bind -c cfocus  l eval 'focus right'  'echo "Exiting region select mode."'
 bind -c cfocus ^T eval 'focus top'    'command -c cfocus'
+bind -c cfocus  t eval 'focus top'    'echo "Exiting region select mode."'
 bind -c cfocus ^B eval 'focus bottom' 'command -c cfocus'
+bind -c cfocus  b eval 'focus bottom' 'echo "Exiting region select mode."'
 
 # swap region to neighbour's
 # override default `W'(width) mapping
@@ -110,8 +118,22 @@ bind -c cselect ^P eval 'prev' 'command -c cselect'
 bind w windowlist -b # sorting by window number
 bind ^W windowlist -b -m # sorting by most-recentry-used list
 
-# layout binding
-bind -k k1 
+# Function Key to select window
+bindkey -k k1 select 0
+bindkey -k k2 select 1
+bindkey -k k3 select 2
+bindkey -k k4 select 3
+bindkey -k k5 select 4
+bindkey -k k6 select 5
+bindkey -k k7 select 6
+bindkey -k k8 select 7
+bindkey -k k9 select 8
+bindkey -k F1 select 9
+bindkey -k F2 select 10
+bindkey -k F3 select 11
+
+# Layout functions
+layout autosave on
 
 # mover cursor to begining of scrollback buffer (and move to the leftmost column of window top)
 bindkey -m ; b stuff "g/:\015\006\002"
@@ -124,7 +146,7 @@ bind ^] paste .
 defbce on
 
 # use bright colors for bold text
-attrcolor b '.I'
+#attrcolor b '.I'
 
 # the $TERM variable set to `xterm' for various environment
 #term xterm

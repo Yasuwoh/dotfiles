@@ -175,7 +175,7 @@ esac
 # set terminal title including current directory
 #
 case "${TERM}" in
-xterm|xterm-color|kterm|kterm-color|screen)
+screen)
     precmd() {
         echo -ne "\e]0;${USER}@${HOST%%.*}:${PWD}\007"
 		echo -ne "\ek`basename ${SHELL}`@`basename ${PWD}`\e\\"
