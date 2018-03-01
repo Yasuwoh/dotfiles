@@ -119,21 +119,23 @@ bind w windowlist -b # sorting by window number
 bind ^W windowlist -b -m # sorting by most-recentry-used list
 
 # Function Key to select window
-bindkey -k k1 select 0
-bindkey -k k2 select 1
-bindkey -k k3 select 2
-bindkey -k k4 select 3
-bindkey -k k5 select 4
-bindkey -k k6 select 5
-bindkey -k k7 select 6
-bindkey -k k8 select 7
-bindkey -k k9 select 8
-bindkey -k F1 select 9
-bindkey -k F2 select 10
-bindkey -k F3 select 11
+bindkey "^[[11~" select 0
+bindkey "^[[12~" select 1
+bindkey "^[[13~" select 2
+bindkey "^[[14~" select 3
+bindkey "^[[15~" select 4
+bindkey "^[[17~" select 5
+bindkey "^[[18~" select 6
+bindkey "^[[19~" select 7
+bindkey "^[[20~" select 8
+bindkey "^[[21~" select 9
 
 # Layout functions
+bindkey "^[[23~" layout select 0
+bindkey "^[[24~" layout select 1
 layout autosave on
+source .screen_layout
+layout save def
 
 # mover cursor to begining of scrollback buffer (and move to the leftmost column of window top)
 bindkey -m ; b stuff "g/:\015\006\002"
