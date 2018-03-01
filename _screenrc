@@ -18,17 +18,17 @@ verbose on
 
 # changes the name of logfile
 deflog on
-logfile 'screen/log/screenlog.%H.%Y-%m-%d-%02c:%s-%n.log'
+logfile '.screen/log/screenlog.%H.%Y-%m-%d-%02c:%s-%n.log'
 logtstamp on
 logtstamp string "\n-- SCREEN [%Y/%m/%d %02c:%s] %n:%t --\n'
 
 # changes the directory for hardcopy and bind ^H to hardcopy
-hardcopydir 'screen/hardcopy'
+hardcopydir '.screen/hardcopy'
 hardcopy_append on
 bind ^Y hardcopy
 
 # changes the filename userd for reading and writing with the past buffer
-bufferfile 'screen/screen-exchange'
+bufferfile '.screen/screen-exchange'
 
 # enable alternate screen
 altscreen on
@@ -50,7 +50,7 @@ bind ^G
 bind N colon 'number '
 
 # shortcut of screen sub-command with title option
-bind s colon 'screen -t'
+#bind s colon 'screen -t'
 
 # switch window encoding
 bind ^U eval 'encoding utf8' 'info'
@@ -134,7 +134,7 @@ bindkey "^[[21~" select 9
 bindkey "^[[23~" layout select 0
 bindkey "^[[24~" layout select 1
 layout autosave on
-source .screen_layout
+source .screen/screen_layout
 layout save def
 
 # mover cursor to begining of scrollback buffer (and move to the leftmost column of window top)
@@ -164,7 +164,7 @@ termcapinfo xterm 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l:Co#256:AB=\E[48;5;%dm:AF
 windowlist title '%{u .g}Num Flags Title%=[0-9] select the number [movement] j,C-n:Down k,C-p:Up (C-)f:PageDown (C-)b:PageUp'
 windowlist string '%{.g}%3n %{.y}%f%09=%{dg} %t %='
 
-caption always '%?%F%{= bW}%:%{= Kw}%?%2n%f%07=%t%='
+caption always '%?%F%{= bW}%:%{= Kw}%?%2n%f%07=%t%?%P [COPY MODE]%:%?%='
 # %?%F%{= bW}%:%{= Kk}%?%2n%f%07=%t%=
 # %?%F       %:       %?                -- (1) IF/ELSE フォーカスがあるかないか(%F)を条件にする
 #     %{= bW}                           -- (2) フォーカスがある場合、以降の前景色をb、背景色をWにする
