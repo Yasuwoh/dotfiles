@@ -204,3 +204,5 @@ esac
 #
 [ -f ${HOME}/.zshrc.mine ] && source ${HOME}/.zshrc.mine
 
+[ `which fortune 2> /dev/null` ] && fortune
+
