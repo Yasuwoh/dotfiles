@@ -1,12 +1,31 @@
+" VIMオリジナルモード
 set nocompatible
+" 補完モードON
 set wildmenu
+" 入力中のコマンドを表示
 set showcmd
+" 検索文字列をハイライト
 set hlsearch
+" 行番号を表示
 set number
+" 長い行は折り返す
+set wrap
+set ruler
+" シンタックスハイライト
 syntax on
+" インデント周り
 set autoindent
 set smartindent
-set history=50
+set expandtab
+"set cindent
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+
+" コマンド履歴
+set history=200
+
+" ディレクトリの設定
 if has('win32') || has('win64')
     set backupdir=~/vimbackup
     set undodir=~/vimundo
@@ -14,40 +33,65 @@ else
     set backupdir=~/.vimbackup
     set undodir=~/.vimundo
 endif
-set expandtab
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+" バッファを切り替えてもundoの効力を失わない
 set hidden
+" 括弧の入力時、対応する括弧を表示
 set showmatch
+" 検索関連
 set ignorecase
 set smartcase
-set backspace=indent,eol,start
 set incsearch
-set wrap
-set ruler
-set laststatus=2
+" バックスペースで自動インデントを消す
+" バックスペースで行末を消して前の行へ戻る
+" インサートモードを開始したキャレットよりも前の文字列を消せる
+set backspace=indent,eol,start
+" マウスを使う
 if exists ("mouse")
 	set mouse=a
 	set ttymouse=xterm2
 endif
+" 長い行でも自動的に改行しない
 set textwidth=0
-set statusline=%f%m%r%h%w\ %<<\%{getcwd()}>%=\ \[%l,%c%V\]\[%{&ff}]\[%{&fileencoding}]%y
+" ステータスラインを常に表示
+set laststatus=2
+" ステータスラインの文字列
+set statusline=%f%m%r%h%w%q\ %<<%{getcwd()}>%=\ [%l,%c%V,%P][%{&ff}][%{&fileencoding}]%y
+" %f: ファイル名(相対パス)
+" %m: 編集フラグ [+]
+" %r: 読み取り専用フラグ [RO]
+" %h: ヘルプフラグ [help]
+" %w: プレビューフラグ [Preview]
+" %q: クイックフィックスリストフラグ [Quickfix List] or ロケーションリストフラグ [Location List]
+" \ : スペースをエスケープ
+" \%{getcwd()}: カレントディレクトリ
+" %=: 区切り
+" %l: 行番号
+" %c: 列番号
+" %V: 仮想列番号。実列番号(%c)と同一の場合は、空文字列
+" %{&ff}: ファイルフォーマット(改行コード)
+" %{&fileencoding}: ファイルエンコーディング(文字コード)
+" %y: ファイルタイプ(シンタックス)
+"
+" 論理行よりむしろ、見えている行でカーソル移動
 nnoremap j gj
 nnoremap k gk
+" C-L で検索ハイライトも消す
 nnoremap <C-L> :nohl<CR><C-L>
 
 
+" GUIで動作していない場合、タイトルを自動設定
 if !has('gui_running')
     set title
+    " ターミナルがscreenの場合のエスケープ文字列
     if &term =~ '^screen'
         set t_ts=k
         set t_fs=\
     endif
-
+    " タイトル文字列
     set titlestring=%{GetTitleString()}
 endif
 
+" タイトル文字列
 function! GetTitleString()
     " 各種フラグ
     let modified = getbufvar ('', '&mod') ? '+' : ''
