@@ -1,16 +1,17 @@
 all:
+.PHONY: all gather deploy dir diff
 
 gather:
-	cp -f ${HOME}/.zshrc    _zshrc
-	cp -f ${HOME}/.zprofile _zprofile
-	cp -f ${HOME}/.screenrc _screenrc
-	cp -f ${HOME}/.vimrc    _vimrc
+	install -m 644 ${HOME}/.zshrc    _zshrc
+	install -m 644 ${HOME}/.zprofile _zprofile
+	install -m 644 ${HOME}/.screenrc _screenrc
+	install -m 644 ${HOME}/.vimrc    _vimrc
 
 deploy: dir
-	cp -f _zshrc    ${HOME}/.zshrc
-	cp -f _zprofile ${HOME}/.zprofile
-	cp -f _screenrc ${HOME}/.screenrc
-	cp -f _vimrc    ${HOME}/.vimrc
+	install -m 644 _zshrc    ${HOME}/.zshrc
+	install -m 644 _zprofile ${HOME}/.zprofile
+	install -m 644 _screenrc ${HOME}/.screenrc
+	install -m 644 _vimrc    ${HOME}/.vimrc
 
 dir:
 	install -d -m 755 ${HOME}/.vimbackup
@@ -18,3 +19,9 @@ dir:
 	install -d -m 755 ${HOME}/.screen
 	install -d -m 755 ${HOME}/.screen/hardcopy
 	install -d -m 755 ${HOME}/.screen/log
+
+diff:
+	-diff ${HOME}/.zshrc    _zshrc
+	-diff ${HOME}/.zprofile _zprofile
+	-diff ${HOME}/.screenrc _screenrc
+	-diff ${HOME}/.vimrc    _vimrc
