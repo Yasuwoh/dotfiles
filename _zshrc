@@ -77,6 +77,10 @@ bindkey "^n" history-beginning-search-forward-end
 bindkey "\\ep" history-beginning-search-backward-end
 bindkey "\\en" history-beginning-search-forward-end
 
+# disable xoff keybind
+#
+stty stop undef
+
 # reverse menu completion binded to Shift-Tab
 #
 bindkey "\e[Z" reverse-menu-complete

@@ -61,8 +61,13 @@ bind ^E eval 'encoding eucjp' 'info'
 bind u eval 'encoding utf8' '!!!echo "LANG=ja_JP.UTF-8; export LANG"' 'info'
 bind e eval 'encoding eucjp' '!!!echo "LANG=ja_JP.eucJP; export LANG"' 'info'
 
+# horizontally split region
+bind S split
+bind ^S split # Disable ''xoff'' bind
+
 # vertically split region
 bind V split -v
+bind ^V split -v # Disable ''digraph'' bind
 
 # switch focus to other region (like vi)
 # override default `k'(kill), `t'(time), `b'(break) mappings
