@@ -106,7 +106,9 @@ bind -c swap P eval 'select -' 'focus up' 'other' 'focus down' 'other' 'focus up
 # override default `r'(wrap) mapping.
 bind r eval 'command -c cresize'
 bind -c cresize j eval 'resize +1'  'command -c cresize'
+bind -c cresize + eval 'resize +1'  'command -c cresize'
 bind -c cresize k eval 'resize -1'  'command -c cresize'
+bind -c cresize - eval 'resize -1'  'command -c cresize'
 bind -c cresize J eval 'resize +10' 'command -c cresize'
 bind -c cresize K eval 'resize -10' 'command -c cresize'
 bind -c cresize = eval 'resize ='   'command -c cresize'
@@ -115,7 +117,7 @@ bind -c cresize x eval 'resize max' 'command -c cresize'
 
 # continuous switch to other window
 bind ^N eval 'next' 'command -c cselect'
-bind ^P eval 'repv' 'command -c cselect'
+bind ^P eval 'prev' 'command -c cselect'
 bind -c cselect ^N eval 'next' 'command -c cselect'
 bind -c cselect ^P eval 'prev' 'command -c cselect'
 
@@ -141,7 +143,7 @@ bindkey "^[[23~" layout select 0
 bindkey "^[[24~" layout select 1
 layout autosave on
 source .screen/layout
-layout save def
+layout save default
 
 # mover cursor to begining of scrollback buffer (and move to the leftmost column of window top)
 bindkey -m ; b stuff "g/:\015\006\002"
