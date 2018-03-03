@@ -28,10 +28,17 @@ set history=200
 " ディレクトリの設定
 if has('win32') || has('win64')
     set backupdir=~/vimbackup
-    set undodir=~/vimundo
 else
     set backupdir=~/.vimbackup
-    set undodir=~/.vimundo
+endif
+" 終了してもundoの効力を失わない
+if has('persistent_undo')
+    set undofile
+    if has('win32') || has('win64')
+        set undodir=~/vimundo
+    else
+        set undodir=~/.vimundo
+    endif
 endif
 " バッファを切り替えてもundoの効力を失わない
 set hidden

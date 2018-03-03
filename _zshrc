@@ -5,11 +5,13 @@
 # LANG
 #
 export LANG=ja_JP.UTF-8
-case ${UID} in
-0)
-    LANG=C
-    ;;
-esac
+#
+# below statements were commented out because of using Japanese even in root.
+#case ${UID} in
+#0)
+#    LANG=C
+#    ;;
+#esac
 
 
 ## Default shell configuration
