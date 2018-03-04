@@ -9,3 +9,4 @@ if [ -f "$HOME/.pythonrc" ] ; then
 fi
 
 screen -D -RR
+

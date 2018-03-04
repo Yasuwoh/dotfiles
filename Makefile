@@ -6,12 +6,14 @@ gather:
 	install -m 644 ${HOME}/.zprofile _zprofile
 	install -m 644 ${HOME}/.screenrc _screenrc
 	install -m 644 ${HOME}/.vimrc    _vimrc
+	install -m 644 ${HOME}/.pythonrc _pythonrc 
 
 deploy: dir
 	install -m 644 _zshrc    ${HOME}/.zshrc
 	install -m 644 _zprofile ${HOME}/.zprofile
 	install -m 644 _screenrc ${HOME}/.screenrc
 	install -m 644 _vimrc    ${HOME}/.vimrc
+	install -m 644 _pythonrc    ${HOME}/.pythonrc
 
 dir:
 	install -d -m 755 ${HOME}/.vimbackup
@@ -25,3 +27,5 @@ diff:
 	-diff ${HOME}/.zprofile _zprofile
 	-diff ${HOME}/.screenrc _screenrc
 	-diff ${HOME}/.vimrc    _vimrc
+	-diff ${HOME}/.pythonrc _pythonrc
+
