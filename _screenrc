@@ -104,7 +104,7 @@ bind -c swap P eval 'select -' 'focus up' 'other' 'focus down' 'other' 'focus up
 
 # continuous resize region
 # override default `r'(wrap) mapping.
-bind r eval 'command -c cresize'
+bind r eval 'command -c cresize' 'echo "Entering region resize mode.(j: +1, k: -1, J: +10, K: -10, n: min, x: max, =)"'
 bind -c cresize j eval 'resize +1'  'command -c cresize'
 bind -c cresize + eval 'resize +1'  'command -c cresize'
 bind -c cresize k eval 'resize -1'  'command -c cresize'
@@ -116,10 +116,12 @@ bind -c cresize n eval 'resize min' 'command -c cresize'
 bind -c cresize x eval 'resize max' 'command -c cresize'
 
 # continuous switch to other window
-bind ^N eval 'next' 'command -c cselect'
-bind ^P eval 'prev' 'command -c cselect'
+bind ^N eval 'next' 'command -c cselect' 'echo "Entering window select mode."'
+bind ^P eval 'prev' 'command -c cselect' 'echo "Entering window select mode."'
 bind -c cselect ^N eval 'next' 'command -c cselect'
 bind -c cselect ^P eval 'prev' 'command -c cselect'
+bind -c cselect n eval 'next' 'echo "Exiting window select mode."'
+bind -c cselect p eval 'prev' 'echo "Exiting window select mode."'
 
 # list of all windows is displayed in the blank window(-b) for visual window selection
 # override default `w'(windows) mapping
@@ -137,13 +139,25 @@ bindkey "^[[18~" select 6
 bindkey "^[[19~" select 7
 bindkey "^[[20~" select 8
 bindkey "^[[21~" select 9
+bindkey "^[[23~" select 10
+bindkey "^[[24~" select 11
 
 # Layout functions
-bindkey "^[[23~" layout select 0
-bindkey "^[[24~" layout select 1
-layout autosave on
+bind "^[[11~" eval 'layout select 0'  'layout show'
+bind "^[[12~" eval 'layout select 1'  'layout show'
+bind "^[[13~" eval 'layout select 2'  'layout show'
+bind "^[[14~" eval 'layout select 3'  'layout show'
+bind "^[[15~" eval 'layout select 4'  'layout show'
+bind "^[[17~" eval 'layout select 5'  'layout show'
+bind "^[[18~" eval 'layout select 6'  'layout show'
+bind "^[[19~" eval 'layout select 7'  'layout show'
+bind "^[[20~" eval 'layout select 8'  'layout show'
+bind "^[[21~" eval 'layout select 9'  'layout show'
+bind "^[[23~" eval 'layout select 10' 'layout show'
+bind "^[[24~" eval 'layout select 11' 'layout show'
+#layout autosave on
 source .screen/layout
-layout save default
+#layout save default
 
 # mover cursor to begining of scrollback buffer (and move to the leftmost column of window top)
 bindkey -m ; b stuff "g/:\015\006\002"
@@ -172,28 +186,28 @@ termcapinfo xterm 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l:Co#256:AB=\E[48;5;%dm:AF
 windowlist title '%{u .g}Num Flags Title%=[0-9] select the number [movement] j,C-n:Down k,C-p:Up (C-)f:PageDown (C-)b:PageUp'
 windowlist string '%{.g}%3n %{.y}%f%09=%{dg} %t %='
 
-caption always '%?%F%{= bW}%:%{= Kw}%?%2n%f%07=%t%?%P [COPY MODE]%:%?%='
-# %?%F%{= bW}%:%{= Kk}%?%2n%f%07=%t%=
-# %?%F       %:       %?                -- (1) IF/ELSE フォーカスがあるかないか(%F)を条件にする
-#     %{= bW}                           -- (2) フォーカスがある場合、以降の前景色をb、背景色をWにする
-#              %{= Kk}                  -- (3) フォーカスがない場合、以降の前景色をK、背景色をkにする
-#                       %2n             -- (4) ウィンドウ番号を2桁幅で出力
-#                          %f           -- (5) ウィンドウのフラグを出力(「(L)」とか「Z」とか「@」とか)
-#                            %07=       -- (6) 7桁パディング(フラグの出力幅は不定だけど7桁あれば足りるだろう)
-#                                %t     -- (7) ウィンドウタイトルを出力
-#                                  %=   -- (8) 残り右全部パディング(右端まで背景色を有効にするため)
-#caption always '%?%F%{= bW}%:%{= Kw}%?%2n%f%07=%-w%{!ru}%n %t%{!ru}%+w%='
+caption always '%?%F%{= bW}%:%{= Kw}%?%2n%f%07=%t%?%P [COPY MODE]%:%?%=%{d..}%h'
+#               %?%F       %:       %?                                    -- (1) IF/ELSE フォーカスがあるかないか(%F)を条件にする
+#                   %{= bW}                                               -- (2) フォーカスがある場合、以降の背景色をb、前景色をWにする
+#                            %{= Kw}                                      -- (3) フォーカスがない場合、以降の背景色をK、前景色をwにする
+#                                     %2n                                 -- (4) ウィンドウ番号を2桁幅で出力
+#                                        %f                               -- (5) ウィンドウのフラグを出力(「(L)」とか「Z」とか「@」とか)
+#                                          %07=                           -- (6) 7桁パディング(フラグの出力幅は不定だけど7桁あれば足りるだろう)
+#                                              %t                         -- (7) ウィンドウタイトルを出力
+#                                                %?%P            %:%?     -- (8) IF/ELSE コピーモードか否か(%P)を条件にする
+#                                                     [COPY MODE]         -- (9) コピーモードを表す文字列
+#                                                                    %=   -- (10) 残り右全部パディング(右端まで背景色を有効にするため)
+#                                                                      %h -- (11) ウィンドウのハードステータス
 
-hardstatus alwayslastline '%{= .b}%H%{-} %L=%-w%45L>%{=u b.}%n %t%{-}%+w %-17<%=%{= .y}(%l) %{-}%Y/%m/%d %02c:%s'
-# %{= .b}%H%{-} %L=%-w%45L>%{=u b.}%n %t%{-}%+w %-37<%=%{= .y}(%l) %Y/%m/%d %02c:%s
-# %{= .b}%H%{-}                                                                     -- (2) ホスト名
-#               %L=                                                                 -- (3) ウィンドウ一覧のタブ位置
-#                  %-w                                                              -- (4) 表示中のウィンドウより小さい番号のウィンドウ一覧
-#                     %45L>                                                         -- (5) ウィンドウ一覧をスクロールさせる左端を45%指定
-#                          %{=u b.}%n %t%{-}                                        -- (6) 前景色bでウィンドウ番号とタイトルを出力
-#                                           %+w                                     -- (7) 表示中のウィンドウより大きい番号のウィンドウ一覧
-#                                               %-17<                               -- (8) 右の余白を半角17文字確保
-#                                                    %=                             -- (9) 残り右前部をパディング
-#                                                      %{= .y}(%l)                  -- (10) ロードアベレージを背景色yで表示
-#                                                                  %Y/%m/%d %02c:%s -- (1) タイムスタンプ
+hardstatus alwayslastline '%{= .g}%H%{-} %L=%-w%45L>%{=u b.}%n %t%{-}%+w %-37<%=%{= .y}(%l) %{-}%Y/%m/%d %02c:%s'
+#                          %{= .g}%H%{-}                                                                         -- (2) ホスト名
+#                                        %L=                                                                     -- (3) ウィンドウ一覧のタブ位置
+#                                           %-w                                                                  -- (4) 表示中のウィンドウより小さい番号のウィンドウ一覧
+#                                              %45L>                                                             -- (5) ウィンドウ一覧をスクロールさせる左端を45%指定
+#                                                   %{=u b.}%n %t%{-}                                            -- (6) 前景色bでウィンドウ番号とタイトルを出力
+#                                                                    %+w                                         -- (7) 表示中のウィンドウより大きい番号のウィンドウ一覧
+#                                                                        %-37<                                   -- (8) 右の余白を半角37文字確保
+#                                                                             %=                                 -- (9) 残り右前部をパディング
+#                                                                               %{= .y}(%l)                      -- (10) ロードアベレージを背景色yで表示
+#                                                                                           %{-}%Y/%m/%d %02c:%s -- (1) タイムスタンプ
 
