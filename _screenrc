@@ -1,5 +1,7 @@
 # Escape key is C-t, literal is t
 escape ^Tt
+# Enter command mode with C-t ; also
+bind ; colon
 
 # I like a large scrollback buffer.
 defscrollback 10000
@@ -14,7 +16,7 @@ startup_message off
 zombie kr # k: destroy window, r: resurrect window
 
 # echo command name whenever a window is created or resurrected
-verbose on
+#verbose on
 
 # changes the name of logfile
 deflog on
@@ -75,8 +77,8 @@ bind j focus down
 bind k focus up
 bind h focus left
 bind l focus right
-bind t focus top
-bind b focus bottom
+#bind t focus top
+#bind b focus bottom
 
 # continuos switch focus to other region (like vi)
 bind ^J eval 'focus down'  'command -c cfocus' 'echo "Entering region select mode."'
@@ -91,10 +93,10 @@ bind -c cfocus ^H eval 'focus left'   'command -c cfocus'
 bind -c cfocus  h eval 'focus left'   'echo "Exiting region select mode."'
 bind -c cfocus ^L eval 'focus right'  'command -c cfocus'
 bind -c cfocus  l eval 'focus right'  'echo "Exiting region select mode."'
-bind -c cfocus ^T eval 'focus top'    'command -c cfocus'
-bind -c cfocus  t eval 'focus top'    'echo "Exiting region select mode."'
-bind -c cfocus ^B eval 'focus bottom' 'command -c cfocus'
-bind -c cfocus  b eval 'focus bottom' 'echo "Exiting region select mode."'
+#bind -c cfocus ^T eval 'focus top'    'command -c cfocus'
+#bind -c cfocus  t eval 'focus top'    'echo "Exiting region select mode."'
+#bind -c cfocus ^B eval 'focus bottom' 'command -c cfocus'
+#bind -c cfocus  b eval 'focus bottom' 'echo "Exiting region select mode."'
 
 # swap region to neighbour's
 # override default `W'(width) mapping
@@ -143,21 +145,31 @@ bindkey "^[[23~" select 10
 bindkey "^[[24~" select 11
 
 # Layout functions
-bind "^[[11~" eval 'layout select 0'  'layout show'
-bind "^[[12~" eval 'layout select 1'  'layout show'
-bind "^[[13~" eval 'layout select 2'  'layout show'
-bind "^[[14~" eval 'layout select 3'  'layout show'
-bind "^[[15~" eval 'layout select 4'  'layout show'
-bind "^[[17~" eval 'layout select 5'  'layout show'
-bind "^[[18~" eval 'layout select 6'  'layout show'
-bind "^[[19~" eval 'layout select 7'  'layout show'
-bind "^[[20~" eval 'layout select 8'  'layout show'
-bind "^[[21~" eval 'layout select 9'  'layout show'
-bind "^[[23~" eval 'layout select 10' 'layout show'
-bind "^[[24~" eval 'layout select 11' 'layout show'
-#layout autosave on
+layout autosave on
+bind           ^A eval                   'command -c layout' 'layout show'
+bind -c layout h  eval                   'command -c layout' 'echo "(h: help, [num]: select layout, n: next, p: prev, d: delete, t: title, n: number, s: save)"'
+bind -c layout ^A eval                   'command -c layout' 'layout show'
+bind -c layout ^D eval 'layout remove'   'command -c layout' 'layout show' 
+bind -c layout ^N eval 'layout next'     'command -c layout' 'layout show'
+bind -c layout ^P eval 'layout prev'     'command -c layout' 'layout show'
+bind -c layout a  eval                                       'layout show'
+bind -c layout d  eval 'layout remove'                       'layout show' 
+bind -c layout n  eval 'layout next'                         'layout show'
+bind -c layout p  eval 'layout prev'                         'layout show'
+bind -c layout 0  eval 'layout select 0'                     'layout show'
+bind -c layout 1  eval 'layout select 1'                     'layout show'
+bind -c layout 2  eval 'layout select 2'                     'layout show'
+bind -c layout 3  eval 'layout select 3'                     'layout show'
+bind -c layout 4  eval 'layout select 4'                     'layout show'
+bind -c layout 5  eval 'layout select 5'                     'layout show'
+bind -c layout 6  eval 'layout select 6'                     'layout show'
+bind -c layout 7  eval 'layout select 7'                     'layout show'
+bind -c layout 8  eval 'layout select 8'                     'layout show'
+bind -c layout 9  eval 'layout select 9'                     'layout show'
+bind -c layout t  colon 'layout title '
+bind -c layout n  colon 'layout number '
+bind -c layout s  colon 'layout dump .sreen/layout'
 source .screen/layout
-#layout save default
 
 # mover cursor to begining of scrollback buffer (and move to the leftmost column of window top)
 bindkey -m ; b stuff "g/:\015\006\002"
