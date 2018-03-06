@@ -147,12 +147,14 @@ bindkey "^[[24~" select 11
 # Layout functions
 layout autosave on
 bind           ^A eval                   'command -c layout' 'layout show'
-bind -c layout h  eval                   'command -c layout' 'echo "(h: help, [num]: select layout, n: next, p: prev, d: delete, t: title, n: number, s: save)"'
+bind -c layout h  eval                   'command -c layout' 'echo "(h: help, a: show, [num]: select layout, n: next, p: prev, c: new, d: delete, t: title, n: number, s: save)"'
 bind -c layout ^A eval                   'command -c layout' 'layout show'
+bind -c layout ^C eval 'layout new'      'command -c layout' 'layout show' 
 bind -c layout ^D eval 'layout remove'   'command -c layout' 'layout show' 
 bind -c layout ^N eval 'layout next'     'command -c layout' 'layout show'
 bind -c layout ^P eval 'layout prev'     'command -c layout' 'layout show'
 bind -c layout a  eval                                       'layout show'
+bind -c layout c  eval 'layout new'                          'layout show' 
 bind -c layout d  eval 'layout remove'                       'layout show' 
 bind -c layout n  eval 'layout next'                         'layout show'
 bind -c layout p  eval 'layout prev'                         'layout show'
