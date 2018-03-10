@@ -40,14 +40,19 @@ if has('persistent_undo')
         set undodir=~/.vimundo
     endif
 endif
+" 終了時にカーソル位置を記憶しておく
+augroup vimrcEx
+    au BufRead * if line ("'\"") > 0 && line("'\"") <= line("$") |
+    \ exe "normal g`\"" | endif
+augroup END
 " バッファを切り替えてもundoの効力を失わない
 set hidden
 " 括弧の入力時、対応する括弧を表示
 set showmatch
 " 検索関連
-set ignorecase
-set smartcase
-set incsearch
+set ignorecase  " 大文字小文字を区別しない
+set smartcase   " ただし、大文字が入力された場合は大文字小文字を区別する
+set incsearch   " インクリメンタルサーチを行う
 " バックスペースで自動インデントを消す
 " バックスペースで行末を消して前の行へ戻る
 " インサートモードを開始したキャレットよりも前の文字列を消せる
