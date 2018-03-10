@@ -1,0 +1,20 @@
+layout new 0
+layout title Default
+screen
+
+layout new 1
+layout title Split
+select 0
+split
+focus up
+
+layout new 2
+layout title MultiTerminal
+select 0
+split
+split -v
+focus down
+split -v
+focus up
+
+layout select 0
