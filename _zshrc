@@ -153,7 +153,7 @@ alias less='less -R'
 #
 
 case "${TERM}" in
-xterm|xterm-color|screen)
+xterm|xterm-color|screen*)
     export LSCOLORS=exfxcxdxbxegedabagacad
     export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
     zstyle ':completion:*' list-colors 'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
@@ -183,7 +183,7 @@ esac
 # set terminal title including current directory
 #
 case "${TERM}" in
-screen)
+screen*)
     precmd() {
         echo -ne "\e]0;${USER}@${HOST%%.*}:${PWD}\007"
 		echo -ne "\ek`basename ${SHELL}`@`basename ${PWD}`\e\\"
@@ -212,5 +212,5 @@ esac
 #
 [ -f ${HOME}/.zshrc.mine ] && source ${HOME}/.zshrc.mine
 
-[ `which fortune 2> /dev/null` ] && fortune
+[ -n "`which fortune 2> /dev/null`" ] && fortune
 

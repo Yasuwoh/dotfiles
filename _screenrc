@@ -19,10 +19,10 @@ zombie kr # k: destroy window, r: resurrect window
 #verbose on
 
 # changes the name of logfile
-deflog on
+#deflog on
 logfile '.screen/log/screenlog.%H.%Y-%m-%d-%02c:%s-%n.log'
 logtstamp on
-logtstamp string "\n-- SCREEN [%Y/%m/%d %02c:%s] %n:%t --\n'
+logtstamp string "\n-- SCREEN [%Y/%m/%d %02c:%s] %n:%t --\n"
 
 # changes the directory for hardcopy and bind ^Y to hardcopy
 hardcopydir '.screen/hardcopy'
@@ -147,7 +147,7 @@ bindkey "^[[24~" select 11
 # Layout functions
 layout autosave on
 bind           ^A eval                   'command -c layout' 'layout show'
-bind -c layout h  eval                   'command -c layout' 'echo "(h: help, a: show, [num]: select layout, n: next, p: prev, c: new, d: delete, t: title, n: number, s: save)"'
+bind -c layout h  eval                   'command -c layout' 'echo "(h: help, a: show, [0-9]: select layout, n: next, p: prev, c: new, d: delete, t: title, n: number, s: save)"'
 bind -c layout ^A eval                   'command -c layout' 'layout show'
 bind -c layout ^C eval 'layout new'      'command -c layout' 'layout show' 
 bind -c layout ^D eval 'layout remove'   'command -c layout' 'layout show' 
@@ -200,7 +200,7 @@ termcapinfo xterm 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l:Co#256:AB=\E[48;5;%dm:AF
 windowlist title '%{u .g}Num Flags Title%=[0-9] select the number [movement] j,C-n:Down k,C-p:Up (C-)f:PageDown (C-)b:PageUp'
 windowlist string '%{.g}%3n %{.y}%f%09=%{dg} %t %='
 
-caption always '%?%F%{= bW}%:%{= Kw}%?%2n%f%07=%t%?%P [COPY MODE]%:%?%=%{d..}%h'
+caption always '%?%F%{= bW}%:%{= Kw}%?%2n%f%07=%t%?%P [COPY MODE]%:%?%=%u %{d..}%h'
 #               %?%F       %:       %?                                    -- (1) IF/ELSE フォーカスがあるかないか(%F)を条件にする
 #                   %{= bW}                                               -- (2) フォーカスがある場合、以降の背景色をb、前景色をWにする
 #                            %{= Kw}                                      -- (3) フォーカスがない場合、以降の背景色をK、前景色をwにする
