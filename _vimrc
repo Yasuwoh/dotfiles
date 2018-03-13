@@ -8,8 +8,11 @@ set showcmd
 set hlsearch
 " 行番号を表示
 set number
+" 現在行に下線を表示
+set cursorline
 " 長い行は折り返す
 set wrap
+" ルーラーを使う・・・が、statuslineを使っているので無意味
 set ruler
 " シンタックスハイライト
 syntax on
