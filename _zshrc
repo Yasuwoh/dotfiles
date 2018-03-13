@@ -58,6 +58,9 @@ setopt noautoremoveslash
 #
 setopt nolistbeep
 
+# extended glob (filename expand)
+#
+# setopt extendedglob
 
 ## Keybind configuration
 #
