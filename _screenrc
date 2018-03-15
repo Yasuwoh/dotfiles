@@ -132,9 +132,13 @@ bind ^W windowlist -b -m # sorting by most-recentry-used list
 
 # Function Key to select window
 bindkey "^[[11~" select 0
+bindkey "^[OP"   select 0
 bindkey "^[[12~" select 1
+bindkey "^[OQ"   select 1
 bindkey "^[[13~" select 2
+bindkey "^[OR"   select 2
 bindkey "^[[14~" select 3
+bindkey "^[OS"   select 3
 bindkey "^[[15~" select 4
 bindkey "^[[17~" select 5
 bindkey "^[[18~" select 6
