@@ -8,5 +8,5 @@ if [ -f "$HOME/.pythonrc" ] ; then
     export PYTHONSTARTUP="$HOME/.pythonrc"
 fi
 
-screen -x -RR
+[ -n "`which screen 2> /dev/null`" ] && screen -x -RR
 
