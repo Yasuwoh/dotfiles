@@ -215,7 +215,7 @@ esac
 
 ## load user .zshrc configuration file
 #
-[ -f ${HOME}/.zshrc.local] && source ${HOME}/.zshrc.local
+[ -f ${HOME}/.zshrc.local ] && source ${HOME}/.zshrc.local
 
 [ -n "`which fortune 2> /dev/null`" ] && fortune -s
 
