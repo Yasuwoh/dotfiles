@@ -8,5 +8,7 @@ if [ -f "$HOME/.pythonrc" ] ; then
     export PYTHONSTARTUP="$HOME/.pythonrc"
 fi
 
+[ -f ${HOME}/.zprofile.local ] && source ${HOME}/.zprofile.local
+
 [ -n "`which screen 2> /dev/null`" ] && screen -x -RR
 
