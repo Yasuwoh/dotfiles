@@ -13,6 +13,8 @@ export LANG=ja_JP.UTF-8
 #    ;;
 #esac
 
+## Enable zsh hook function
+autoload -Uz add-zsh-hook
 
 ## Default shell configuration
 #
@@ -113,6 +115,22 @@ compinit
 autoload zed
 
 
+## zsh Version Control System (VCS) indicator
+autoload -Uz vcs_info
+function precmd_vcs_info () {
+    vcs_info
+}
+add-zsh-hook precmd precmd_vcs_info
+
+setopt prompt_subst
+PROMPT=${PROMPT}'${vcs_info_msg_0_}'
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' stagedstr '%F{blue}<staged>%f'
+zstyle ':vcs_info:git:*' unstagedstr '%F{yellow}<unstaged>%f'
+zstyle ':vcs_info:git:*' formats '
+[%s:%F{green}%b%f]%c%u '
+
+
 ## Prediction configuration
 #
 #autoload predict-on
@@ -156,7 +174,6 @@ alias kachi='make'
 
 ## terminal configuration
 #
-
 case "${TERM}" in
 xterm|xterm-color|screen*)
     export LSCOLORS=exfxcxdxbxegedabagacad
@@ -189,7 +206,7 @@ esac
 #
 case "${TERM}" in
 screen*)
-    precmd() {
+    function precmd_screen_title() {
         echo -ne "\e]0;${USER}@${HOST%%.*}:${PWD}\007"
 		echo -ne "\ek`basename ${SHELL}`@`basename ${PWD}`\e\\"
     }
@@ -197,18 +214,23 @@ screen*)
 	which getcmdname 2>/dev/null 1>/dev/null
 	if [ $? = 0 ] ; then
 		export IGNORECOMMANDS='sudo'
-		preexec() {
+		function preexec_screen_title() {
 			echo -ne "\ek`getcmdname $1`\e\\"
 		}
 	else
-		preexec() {
+		function preexec_screen_title() {
 			echo -ne "\ek`echo $1 | cut -d ' ' -f 1`\e\\"
 		}
 	fi
 
-	zshexit() {
-		echo -ne "\ek[dead]\e\\"
+	function zshexit_screen_title() {
+		echo -ne "\ek[died at `date +'%F %T'`]\e\\"
 	}
+
+    add-zsh-hook precmd precmd_screen_title
+    add-zsh-hook preexec preexec_screen_title
+    add-zsh-hook zshexit zshexit_screen_title
+
     ;;
 esac
 
