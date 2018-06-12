@@ -209,7 +209,9 @@ esac
 case "${TERM}" in
 screen*)
     function precmd_screen_title() {
+        # ハードステータス(ウィンドウタイトル)の設定
         echo -ne "\e]0;${USER}@${HOST%%.*}:${PWD}\007"
+        # screenのタイトルの設定
 		echo -ne "\ek`basename ${SHELL}`@`basename ${PWD}`\e\\"
     }
 
