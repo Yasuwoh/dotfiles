@@ -128,6 +128,8 @@ zstyle ':vcs_info:git:*' stagedstr '%F{blue}#%f'
 zstyle ':vcs_info:git:*' unstagedstr '%F{yellow}!%f'
 zstyle ':vcs_info:git:*' formats '/%F{red}%r%f:%F{green}%b%f%c%u'
 zstyle ':vcs_info:git:*' actionformats '/%F{red}%r%f:%F{green}%b%f%c%u-%F{red}%a%f'
+# stash数を入れたい
+# 未pushを通知したい
 
 
 ## Prediction configuration
