@@ -24,15 +24,15 @@ autoload colors
 colors
 case ${UID} in
 0)
-    PROMPT="%{${fg[cyan]}%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') %B%{${fg[red]}%}%/#%{${reset_color}%}%b "
-    PROMPT2="%B%{${fg[red]}%}%_#%{${reset_color}%}%b "
-    SPROMPT="%B%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%}%b "
+    PROMPT="%F{cyan}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') %B%F{red}%/#%f%b "
+    PROMPT2="%B%F{red}%_#%f%b "
+    SPROMPT="%B%F{red}%r is correct? [n,y,a,e]:%f%b "
     ;;
 *)
-    PROMPT="%{${reset_color}%}[%{${fg[red]}%}%n%{${reset_color}%}@%{${fg[green]}%}%m%{${reset_color}%} %{${fg[blue]}%}%c%{${reset_color}%}]%{${reset_color}%}%% "
-	RPROMPT="%{${fg[red]}%}%n%{${reset_color}%}@%{${fg[green]}%}%M%{${reset_color}%}:%{${fg[blue]}%}%/%{${reset_color}%}"
-    PROMPT2="%{${fg[red]}%}%_%%%{${reset_color}%} "
-    SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
+    PROMPT='%f[%F{red}%n%f@%F{green}%m%f %F{blue}%c%f${vcs_info_msg_0_}]%f%% '
+	RPROMPT='%F{red}%n%f@%F{green}%M%f:%F{blue}%/%f'
+    PROMPT2='%F{red}%_%%%f '
+    SPROMPT='%F{red}%r is correct? [n,y,a,e]:%f '
     ;;
 esac
 
@@ -123,12 +123,11 @@ function precmd_vcs_info () {
 add-zsh-hook precmd precmd_vcs_info
 
 setopt prompt_subst
-PROMPT=${PROMPT}'${vcs_info_msg_0_}'
 zstyle ':vcs_info:git:*' check-for-changes true
-zstyle ':vcs_info:git:*' stagedstr '%F{blue}<staged>%f'
-zstyle ':vcs_info:git:*' unstagedstr '%F{yellow}<unstaged>%f'
-zstyle ':vcs_info:git:*' formats '
-[%s:%F{green}%b%f]%c%u '
+zstyle ':vcs_info:git:*' stagedstr '%F{blue}#%f'
+zstyle ':vcs_info:git:*' unstagedstr '%F{yellow}!%f'
+zstyle ':vcs_info:git:*' formats '/%F{red}%r%f:%F{green}%b%f%c%u'
+zstyle ':vcs_info:git:*' actionformats '/%F{red}%r%f:%F{green}%b%f%c%u-%F{red}%a%f'
 
 
 ## Prediction configuration
