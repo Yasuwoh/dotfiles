@@ -130,6 +130,7 @@ zstyle ':vcs_info:git:*' formats '/%F{red}%r%f:%F{green}%b%f%c%u'
 zstyle ':vcs_info:git:*' actionformats '/%F{red}%r%f:%F{green}%b%f%c%u-%F{red}%a%f'
 # stash数を入れたい
 # 未pushを通知したい
+# untrackedファイルがあることを通知したい
 
 
 ## Prediction configuration
