@@ -29,7 +29,7 @@ case ${UID} in
     SPROMPT="%B%F{red}%r is correct? [n,y,a,e]:%f%b "
     ;;
 *)
-    PROMPT='%f[%F{red}%n%f@%F{green}%m%f%(1j.(%j).) %F{blue}%c%f${vcs_info_msg_0_}]%f%(0?.%%.%F{red}%%%f) '
+    PROMPT='%f[%F{red}%n%f@%F{green}%m%f %(1j.(%j).)%F{blue}%c%f${vcs_info_msg_0_}]%f%(0?.%%.%F{red}%%%f) '
 	RPROMPT='in %F{blue}%/%f'
     PROMPT2='%F{red}%_%%%f '
     SPROMPT='%F{red}%r is correct? [n,y,a,e]:%f '
