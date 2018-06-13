@@ -16,7 +16,6 @@ deploy: dir
 	install -m 644 _screen_layout   ${HOME}/.screen/layout
 	install -m 644 _vimrc           ${HOME}/.vimrc
 	install -m 644 _pythonrc        ${HOME}/.pythonrc
-	install -m 755 bin/getcmdname	${HOME}/bin/getcmdname
 
 dir:
 	install -d -m 755 ${HOME}/.vimbackup
