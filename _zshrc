@@ -29,8 +29,8 @@ case ${UID} in
     SPROMPT="%B%F{red}%r is correct? [n,y,a,e]:%f%b "
     ;;
 *)
-    PROMPT='%f[%F{red}%n%f@%F{green}%m%f %F{blue}%c%f${vcs_info_msg_0_}]%f%% '
-	RPROMPT='%F{red}%n%f@%F{green}%M%f:%F{blue}%/%f'
+    PROMPT='%f[%F{red}%n%f@%F{green}%m%f%(1j.(%j).) %F{blue}%c%f${vcs_info_msg_0_}]%f%(0?.%%.%F{red}%%%f) '
+	RPROMPT='in %F{blue}%/%f'
     PROMPT2='%F{red}%_%%%f '
     SPROMPT='%F{red}%r is correct? [n,y,a,e]:%f '
     ;;
@@ -73,6 +73,8 @@ bindkey -e
 bindkey "^[[1~" beginning-of-line # Home gets to line head
 bindkey "^[[4~" end-of-line # End gets to line end
 bindkey "^[[3~" delete-char # Del
+# 何も入力せずエンターしたときに、時刻、exit code、とかは出したい。
+# リポジトリだったら未push/未mergeとかも？
 
 # historical backward/forward search with linehead string binded to ^P/^N
 #
@@ -124,12 +126,14 @@ add-zsh-hook precmd precmd_vcs_info
 
 setopt prompt_subst
 zstyle ':vcs_info:git:*' check-for-changes true
-zstyle ':vcs_info:git:*' stagedstr '%F{blue}#%f'
-zstyle ':vcs_info:git:*' unstagedstr '%F{yellow}!%f'
-zstyle ':vcs_info:git:*' formats    '/%F{red}%r%f:%F{green}%b%f%c%u' \
-                                    ' [%s]%r:%b%c%u'
-zstyle ':vcs_info:git:*' actionformats '/%F{red}%r%f:%F{green}%b%f%c%u-%F{red}%a%f' \
-                                       ' [%s]%r:%b%c%u-%a'
+zstyle ':vcs_info:git:*' stagedstr '#'
+zstyle ':vcs_info:git:*' unstagedstr '!'
+zstyle ':vcs_info:git:*' formats \
+    '/%F{red}%r%f:%F{green}%b%f%F{blue}%c%f%F{yellow}%u%f' \
+    ' [%s]%r:%b%c%u'
+zstyle ':vcs_info:git:*' actionformats \
+    '/%F{red}%r%f:%F{green}%b%f%F{blue}%c%f%F{yellow}%u%f-%F{red}%a%f' \
+    ' [%s]%r:%b%c%u-%a'
 # stash数を入れたい
 # 未pushを通知したい
 # untrackedファイルがあることを通知したい
