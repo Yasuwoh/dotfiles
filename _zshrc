@@ -1,165 +1,181 @@
 # users generic .zshrc file for zsh(1)
 
-## Environment variable configuration
-#
-# LANG
-#
-export LANG=ja_JP.UTF-8
-#
-# below statements were commented out because of using Japanese even in root.
-#case ${UID} in
-#0)
-#    LANG=C
-#    ;;
-#esac
 
-## Enable zsh hook function
+# 一般設定
+
+## zsh hook機能を有効にする
 autoload -Uz add-zsh-hook
 
-## Default shell configuration
-#
-# set prompt
-#
-autoload colors
+## colors を使う
+autoload -Uz colors
 colors
+
+## ディレクトリ名だけ打つと cd する
+setopt auto_cd
+
+## cd すると自動的に pushd する
+setopt auto_pushd
+
+## 入力ミスに対して訂正候補をサジェストする
+setopt correct
+
+## 一覧を詰めて表示
+setopt list_packed
+
+## コマンドライン末尾のスラッシュ(/)を削除しない
+setopt noautoremoveslash
+
+## 補完候補が表示されるときに、ビープ音を鳴らさない
+setopt nolistbeep
+
+## 拡張globを使う。ファイル名展開に色々特殊な記法が使えるようになるけど、難解。
+# setopt extendedglob
+
+
+# プロンプト設定
 case ${UID} in
+## スーパーユーザの場合
 0)
     PROMPT="%F{cyan}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') %B%F{red}%/#%f%b "
     PROMPT2="%B%F{red}%_#%f%b "
     SPROMPT="%B%F{red}%r is correct? [n,y,a,e]:%f%b "
     ;;
+## スーパーユーザ以外の場合
 *)
+    ## 通常プロンプト
     PROMPT='%f[%F{red}%n%f@%F{green}%m%f %(1j.(%j).)%F{blue}%c%f${vcs_info_msg_0_}]%f%(0?.%%.%F{red}%%%f) '
+        ### [<ユーザ名>@<ホスト名> <バックグラウンドジョブ数(あれば)><カレントディレクトリ><VCS情報(後述)>]%
+        ### 最後のプロンプト記号(%)は、直前の終了ステータス($?)が0以外だと赤くなる
+    ## 右プロンプト
 	RPROMPT='in %F{blue}%/%f'
+        ### in <カレントディレクトリ(フルパス)>
+    ## 複数行入力時のプロンプト
     PROMPT2='%F{red}%_%%%f '
-    SPROMPT='%F{red}%r is correct? [n,y,a,e]:%f '
+        ### <入力中の対象>%
+    ## 入力ミスに対するサジェストプロンプト
+    SPROMPT='%F{red}%r%f is correct? [n,y,a,e]: '
+        ### <サジェスト> is correct ?
     ;;
 esac
 
-# auto change directory
-#
-setopt auto_cd
 
-# auto directory pushd that you can get dirs list by cd -[tab]
-#
-setopt auto_pushd
-
-# command correct edition before each completion attempt
-#
-setopt correct
-
-# compacked complete list display
-#
-setopt list_packed
-
-# no remove postfix slash of command line
-#
-setopt noautoremoveslash
-
-# no beep sound when complete list displayed
-#
-setopt nolistbeep
-
-# extended glob (filename expand)
-#
-# setopt extendedglob
-
-## Keybind configuration
-#
-# emacs like keybind (e.x. Ctrl-a gets to line head and Ctrl-e gets
-#   to end) and something additions
-#
+# キーバインド設定
+# なお、現在のキーバインド設定は bindkey -L で確認できる。
+## Emacsライクキーバインド
 bindkey -e
-bindkey "^[[1~" beginning-of-line # Home gets to line head
-bindkey "^[[4~" end-of-line # End gets to line end
-bindkey "^[[3~" delete-char # Del
-# 何も入力せずエンターしたときに、時刻、exit code、とかは出したい。
-# リポジトリだったら未push/未mergeとかも？
+## HOMEキーで行頭へ移動
+bindkey "^[[1~" beginning-of-line
+## ENDキーで行末へ移動
+bindkey "^[[4~" end-of-line
+## Deleteキーを機能させる
+bindkey "^[[3~" delete-char
+## 標準の accept-line (i.e. Enterキーを押したときの動作)をオーバーライドする。
+## 具体的には、何も入力せずEnterを押すと、日付時刻と直前の終了ステータスを表示する。
 function do_enter() {
+    ### 終了ステータスを退避
     RET=$?
+    ### なんか書かれていたら、accept-lineをそのまま動かす
     if [ -n "$BUFFER" ] ; then
         zle accept-line
         return 0
     fi
+    ### 改行して次の行へ。(これがないと、更にその次の echo がプロンプトと同じ行に出力される)
     echo
-    echo "Date: `date '+%Y/%m/%d %H:%M:%S%z%Z'`, last exit code: $RET"
+    ### 日付時刻と直前の終了ステータスを表示
+    echo "Date: `date '+%Y/%m/%d %H:%M:%S%z%Z'`, last exit status: $RET"
+    ### プロンプトを再度表示
     zle reset-prompt
     return 0
 }
+### zsh のウィジェットとして do_enter 関数を登録
 zle -N do_enter
+### C-m (i.e. Enterキー)のキーバインドを do_enter に置き換え。
+### このため、C-jなど、他のキーの動作はそのまま。
 bindkey '^M' do_enter
 
-# historical backward/forward search with linehead string binded to ^P/^N
-#
-autoload history-search-end
+## 履歴をたどるとき、カーソルを行末にセットする
+### history-search-end 関数をロード
+autoload -Uz history-search-end
+### history-beginning-search ウィジェットを history-search-end で置き換え
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
-bindkey "^p" history-beginning-search-backward-end
-bindkey "^n" history-beginning-search-forward-end
-bindkey "\\ep" history-beginning-search-backward-end
-bindkey "\\en" history-beginning-search-forward-end
+### C-p, C-n で履歴をたどる
+bindkey "^P" history-beginning-search-backward-end
+bindkey "^N" history-beginning-search-forward-end
+### M-p, M-n でも履歴をたどる
+bindkey "\\eP" history-beginning-search-backward-end
+bindkey "\\eN" history-beginning-search-forward-end
 
-# disable xoff keybind
-#
+## xoff キーバインドを無効にする
 stty stop undef
 
-# reverse menu completion binded to Shift-Tab
-#
+## Shift-Tab で補完候補を逆にたどる
 bindkey "\e[Z" reverse-menu-complete
 
 
-## Command history configuration
-#
+# 履歴管理
+## 履歴ファイル
 HISTFILE=${HOME}/.zsh_history
+## 記憶する履歴の数(メモリで保持する数)
 HISTSIZE=50000
-SAVEHIST=50000
-setopt hist_ignore_dups     # ignore duplication command history list
-setopt share_history        # share command history data
-setopt append_history       # append command history, not overwriting
+## 保存する履歴の数(HISTFILEで保存する数)
+SAVEHIST=${HISTSIZE}
+## 重複するコマンドは履歴に残さない
+setopt hist_ignore_dups
+## 履歴データを複数zsh間で共有する
+setopt share_history
+## 履歴を上書きするのではなく追記する
+setopt append_history
 
 
-## Completion configuration
-#
+# 補完設定
+## ホームディレクトリ配下の補完ファイルを優先して使う
 fpath=(${HOME}/.zsh/functions/Completion ${fpath})
-autoload -U compinit
+## compinit を使う
+autoload -Uz compinit
 compinit
 
 
-## zsh editor
-#
-autoload zed
+# zed レディ
+## zed 関数をロードしておく。
+autoload -Uz zed
 
 
-## zsh Version Control System (VCS) indicator
+# VCS (Version Control System)
+## vcs_info 関数をロードし precmd フックに追加
 autoload -Uz vcs_info
 function precmd_vcs_info () {
     vcs_info
 }
 add-zsh-hook precmd precmd_vcs_info
-
+## プロンプトの変数遅延展開を有効にする
 setopt prompt_subst
+## リポジトリの変更をチェックするようにする。巨大なリポジトリでは重い。
 zstyle ':vcs_info:git:*' check-for-changes true
+## ステージされたファイルがある場合、 %c エスケープに # を設定
 zstyle ':vcs_info:git:*' stagedstr '#'
+## ステージされていないファイルがある場合、 %u エスケープに ! を設定
 zstyle ':vcs_info:git:*' unstagedstr '!'
-zstyle ':vcs_info:git:*' formats \
-    '/%F{red}%r%f:%F{green}%b%f%m%F{blue}%c%f%F{yellow}%u%f' \
-    ' [%s]%r:%b%m%c%u'
-zstyle ':vcs_info:git:*' actionformats \
-    '/%F{red}%r%f:%F{green}%b%f%m%F{blue}%c%f%F{yellow}%u%f-%F{red}%a%f' \
-    ' [%s]%r:%b%m%c%u-%a'
+## git でバージョン管理されていないファイルの存在およびスタッシュの数を知りたいので、ユーザフック関数を定義。
 zstyle ':vcs_info:git+set-message:*' hooks \
     vcs-git-hook-begin \
     vcs-git-untracked \
     vcs-git-stash-count
+### 他のフック関数に先立って呼ばれる関数。この関数はこれ以降の関数を呼んで良いかを判断する。
 function +vi-vcs-git-hook-begin() {
+    ### 初回だけこれ以降の関数を実行する。$1が実行回数カウンタ。
     if [[ "$1" -gt 0 ]] ; then
+        ### エラーコードで返却すると、これ以降のフック関数は実行されない。
         return 1
     fi
+    ### ワークツリーの中にいるかをチェックする。
     if [[ $(command git rev-parse --is-inside-work-tree 2>/dev/null) != 'true' ]] ; then
         return 1
     fi
+    ### 正常コードで返却すると、これ以降のフック関数も実行される。
     return 0
 }
+## バージョン管理されていないファイルが存在する場合、 %u エスケープに ? 文字列を追加する。
 function +vi-vcs-git-untracked() {
     if command git status --porcelain 2>/dev/null \
             | awk '{print $1}' \
@@ -167,6 +183,7 @@ function +vi-vcs-git-untracked() {
         hook_com[unstaged]+='?'
     fi
 }
+## スタッシュが存在する場合、 %m (misc) エスケープに (<スタッシュ数>) という文字列を追加する
 function +vi-vcs-git-stash-count() {
     local stash
     stash=$(command git stash list 2>/dev/null | wc -l | tr -d ' ')
@@ -174,23 +191,29 @@ function +vi-vcs-git-stash-count() {
         hook_com[misc]+="(${stash})"
     fi
 }
+## リポジトリ配下における、通常時の文字列を指定。1行目はプロンプトで、2行目はハードステータスで使うことを想定。
+zstyle ':vcs_info:git:*' formats \
+    '/%F{red}%r%f:%F{green}%b%f%m%F{blue}%c%f%F{yellow}%u%f' \
+    ' [%s]%r:%b%m%c%u'
+## リポジトリ配下における、異常(e.g. コンフリクト)時の文字列を指定。1行目はプロンプトで、2行目はハードステータスで使うことを想定。
+zstyle ':vcs_info:git:*' actionformats \
+    '/%F{red}%r%f:%F{green}%b%f%m%F{blue}%c%f%F{yellow}%u%f-%F{red}%a%f' \
+    ' [%s]%r:%b%m%c%u-%a'
 
 
-## Prediction configuration
-#
+# 予測補完
+## 使いにくかったので無効
 #autoload predict-on
 #predict-off
 
 
-## Alias configuration
+# エイリアス
+## エイリアスを展開して補完できるようにする
+setopt complete_aliases
 #
-# expand aliases before completing
-#
-setopt complete_aliases     # aliased ls needs if file/dir completions work
-
 alias where="command -v"
 alias j="jobs -l"
-
+#
 case "${OSTYPE}" in
 freebsd*|darwin*)
     alias ls="ls -G -w"
@@ -199,26 +222,26 @@ linux*)
     alias ls="ls --color"
     ;;
 esac
-
+#
 alias la="ls -a"
 alias lf="ls -F"
 alias ll="ls -l"
-
+#
 alias du="du -h"
 alias df="df -h"
-
+#
 alias su="su -l"
-
+#
 alias rm="rm -i"
 alias mv="mv -i"
-
+#
 alias grep='grep --color=always'
 alias less='less -R'
-
+#
 alias kachi='make'
 
-## terminal configuration
-#
+
+# ターミナル固有のカラー設定
 case "${TERM}" in
 xterm|xterm-color|screen*)
     export LSCOLORS=exfxcxdxbxegedabagacad
@@ -247,13 +270,15 @@ jfbterm-color)
     ;;
 esac
 
-# set terminal title including current directory
-#
+# ターミナル固有のタイトル設定
 case "${TERM}" in
 screen*)
-    function precmd_screen_title() {
+    function precmd_hardstatus() {
         # ハードステータス(ウィンドウタイトル)の設定
         echo -ne "\e]0;${USER}@${HOST%%.*}:${PWD}${vcs_info_msg_1_}\007"
+    }
+
+    function precmd_screen_title() {
         # screenのタイトルの設定
 		echo -ne "\ek`basename ${SHELL}`@`basename ${PWD}`\e\\"
     }
@@ -266,6 +291,7 @@ screen*)
 		echo -ne "\ek[died at `date +'%F %T'`]\e\\"
 	}
 
+    add-zsh-hook precmd precmd_hardstatus
     add-zsh-hook precmd precmd_screen_title
     add-zsh-hook preexec preexec_screen_title
     add-zsh-hook zshexit zshexit_screen_title
@@ -274,9 +300,9 @@ screen*)
 esac
 
 
-## load user .zshrc configuration file
-#
+# 環境固有の設定ファイルの読み込み
 [ -f ${HOME}/.zshrc.local ] && source ${HOME}/.zshrc.local
 
+# おみくじ
 [ -n "`which fortune 2> /dev/null`" ] && fortune -s
 
