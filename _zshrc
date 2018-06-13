@@ -75,6 +75,19 @@ bindkey "^[[4~" end-of-line # End gets to line end
 bindkey "^[[3~" delete-char # Del
 # 何も入力せずエンターしたときに、時刻、exit code、とかは出したい。
 # リポジトリだったら未push/未mergeとかも？
+function do_enter() {
+    RET=$?
+    if [ -n "$BUFFER" ] ; then
+        zle accept-line
+        return 0
+    fi
+    echo
+    echo "Date: `date '+%Y/%m/%d %H:%M:%S%z%Z'`, last exit code: $RET"
+    zle reset-prompt
+    return 0
+}
+zle -N do_enter
+bindkey '^M' do_enter
 
 # historical backward/forward search with linehead string binded to ^P/^N
 #
@@ -221,17 +234,9 @@ screen*)
 		echo -ne "\ek`basename ${SHELL}`@`basename ${PWD}`\e\\"
     }
 
-	which getcmdname 2>/dev/null 1>/dev/null
-	if [ $? = 0 ] ; then
-		export IGNORECOMMANDS='sudo'
-		function preexec_screen_title() {
-			echo -ne "\ek`getcmdname $1`\e\\"
-		}
-	else
-		function preexec_screen_title() {
-			echo -ne "\ek`echo $1 | cut -d ' ' -f 1`\e\\"
-		}
-	fi
+    function preexec_screen_title() {
+        echo -ne "\ek$1\e\\"
+    }
 
 	function zshexit_screen_title() {
 		echo -ne "\ek[died at `date +'%F %T'`]\e\\"
