@@ -142,14 +142,38 @@ zstyle ':vcs_info:git:*' check-for-changes true
 zstyle ':vcs_info:git:*' stagedstr '#'
 zstyle ':vcs_info:git:*' unstagedstr '!'
 zstyle ':vcs_info:git:*' formats \
-    '/%F{red}%r%f:%F{green}%b%f%F{blue}%c%f%F{yellow}%u%f' \
-    ' [%s]%r:%b%c%u'
+    '/%F{red}%r%f:%F{green}%b%f%m%F{blue}%c%f%F{yellow}%u%f' \
+    ' [%s]%r:%b%m%c%u'
 zstyle ':vcs_info:git:*' actionformats \
-    '/%F{red}%r%f:%F{green}%b%f%F{blue}%c%f%F{yellow}%u%f-%F{red}%a%f' \
-    ' [%s]%r:%b%c%u-%a'
-# stash数を入れたい
-# 未pushを通知したい
-# untrackedファイルがあることを通知したい
+    '/%F{red}%r%f:%F{green}%b%f%m%F{blue}%c%f%F{yellow}%u%f-%F{red}%a%f' \
+    ' [%s]%r:%b%m%c%u-%a'
+zstyle ':vcs_info:git+set-message:*' hooks \
+    vcs-git-hook-begin \
+    vcs-git-untracked \
+    vcs-git-stash-count
+function +vi-vcs-git-hook-begin() {
+    if [[ "$1" -gt 0 ]] ; then
+        return 1
+    fi
+    if [[ $(command git rev-parse --is-inside-work-tree 2>/dev/null) != 'true' ]] ; then
+        return 1
+    fi
+    return 0
+}
+function +vi-vcs-git-untracked() {
+    if command git status --porcelain 2>/dev/null \
+            | awk '{print $1}' \
+            | command grep -F '??' 2>&1 >/dev/null ; then
+        hook_com[unstaged]+='?'
+    fi
+}
+function +vi-vcs-git-stash-count() {
+    local stash
+    stash=$(command git stash list 2>/dev/null | wc -l | tr -d ' ')
+    if [[ "${stash}" -gt 0 ]] ; then
+        hook_com[misc]+="(${stash})"
+    fi
+}
 
 
 ## Prediction configuration
