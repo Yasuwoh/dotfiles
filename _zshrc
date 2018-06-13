@@ -126,8 +126,10 @@ setopt prompt_subst
 zstyle ':vcs_info:git:*' check-for-changes true
 zstyle ':vcs_info:git:*' stagedstr '%F{blue}#%f'
 zstyle ':vcs_info:git:*' unstagedstr '%F{yellow}!%f'
-zstyle ':vcs_info:git:*' formats '/%F{red}%r%f:%F{green}%b%f%c%u'
-zstyle ':vcs_info:git:*' actionformats '/%F{red}%r%f:%F{green}%b%f%c%u-%F{red}%a%f'
+zstyle ':vcs_info:git:*' formats    '/%F{red}%r%f:%F{green}%b%f%c%u' \
+                                    ' [%s]%r:%b%c%u'
+zstyle ':vcs_info:git:*' actionformats '/%F{red}%r%f:%F{green}%b%f%c%u-%F{red}%a%f' \
+                                       ' [%s]%r:%b%c%u-%a'
 # stash数を入れたい
 # 未pushを通知したい
 # untrackedファイルがあることを通知したい
@@ -210,7 +212,7 @@ case "${TERM}" in
 screen*)
     function precmd_screen_title() {
         # ハードステータス(ウィンドウタイトル)の設定
-        echo -ne "\e]0;${USER}@${HOST%%.*}:${PWD}\007"
+        echo -ne "\e]0;${USER}@${HOST%%.*}:${PWD}${vcs_info_msg_1_}\007"
         # screenのタイトルの設定
 		echo -ne "\ek`basename ${SHELL}`@`basename ${PWD}`\e\\"
     }
