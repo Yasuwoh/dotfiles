@@ -83,8 +83,11 @@ function do_enter() {
     echo
     ### 日付時刻と直前の終了ステータスを表示
     echo "`date`, last exit status: $RET"
-    ### ls を最初の一行だけ表示。ただし改行しない
-    ls --color -C | head -n 1 | tr -d "\n"
+    ### ls を最初の一行だけ表示。2行以上になるときは"and more"と表示。あと改行しない
+    local lsc
+    lsc=`ls --color -C -m`
+    echo $lsc | head -n 1 | tr -d "\n"
+    [[ "`echo $lsc | wc -l`" -ge 2 ]] && echo -n "\t[and more]"
     ### accept-line を実行。Enter連打で vcs_info が走らないことのハック。
     zle accept-line
 }
