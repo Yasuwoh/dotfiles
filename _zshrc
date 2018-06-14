@@ -98,7 +98,7 @@ zle -N do_enter
 bindkey '^M' do_enter
 
 ## C-j でコマンドを実行して、その行を残す
-bindkey '^J' accept-line-and-hold
+bindkey '^J' accept-and-hold
 
 ## 履歴をたどるとき、カーソルを行末にセットする
 ### history-search-end 関数をロード
