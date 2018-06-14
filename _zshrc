@@ -94,6 +94,9 @@ zle -N do_enter
 ### このため、C-jなど、他のキーの動作はそのまま。
 bindkey '^M' do_enter
 
+## C-j でコマンドを実行して、その行を残す
+bindkey '^J' accept-line-and-hold
+
 ## 履歴をたどるとき、カーソルを行末にセットする
 ### history-search-end 関数をロード
 autoload -Uz history-search-end
