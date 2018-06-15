@@ -1,5 +1,5 @@
 all: help
-.PHONY: all gather deploy dir config diff help
+.PHONY: all gather deploy dir diff help
 
 gather:
 	install -m 644 ${HOME}/.zshrc           _zshrc
@@ -8,6 +8,7 @@ gather:
 	install -m 644 ${HOME}/.screen/layout   _screen_layout
 	install -m 644 ${HOME}/.vimrc           _vimrc
 	install -m 644 ${HOME}/.pythonrc        _pythonrc 
+	install -m 644 ${HOME}/.gitconfig       _gitconfig
 
 deploy: dir
 	install -m 644 _zshrc           ${HOME}/.zshrc
@@ -16,6 +17,7 @@ deploy: dir
 	install -m 644 _screen_layout   ${HOME}/.screen/layout
 	install -m 644 _vimrc           ${HOME}/.vimrc
 	install -m 644 _pythonrc        ${HOME}/.pythonrc
+	install -m 644 _gitconfig       ${HOME}/.gitconfig
 
 dir:
 	install -d -m 755 ${HOME}/.vimbackup
@@ -24,9 +26,6 @@ dir:
 	install -d -m 755 ${HOME}/.screen/hardcopy
 	install -d -m 755 ${HOME}/.screen/log
 
-config:
-	git config --global merge.defaultToUpstream true
-
 diff:
 	-diff ${HOME}/.zshrc            _zshrc
 	-diff ${HOME}/.zprofile         _zprofile
@@ -34,6 +33,7 @@ diff:
 	-diff ${HOME}/.screen/layout    _screen_layout
 	-diff ${HOME}/.vimrc            _vimrc
 	-diff ${HOME}/.pythonrc         _pythonrc
+	-diff ${HOME}/.gitconfig       _gitconfig
 
 help:
-	echo "make <deploy|gather|dir|config|diff|help>"
+	echo "make <deploy|gather|dir|diff|help>"
