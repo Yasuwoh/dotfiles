@@ -1,0 +1,7 @@
+[push]
+	default = simple
+[merge]
+	defaultToUpstream = true
+[include]
+    path = ~/.gitconfig.local
+
