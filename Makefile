@@ -1,5 +1,5 @@
 all: help
-.PHONY: all gather deploy dir diff help
+.PHONY: all gather deploy dir config diff help
 
 gather:
 	install -m 644 ${HOME}/.zshrc           _zshrc
@@ -24,6 +24,9 @@ dir:
 	install -d -m 755 ${HOME}/.screen/hardcopy
 	install -d -m 755 ${HOME}/.screen/log
 
+config:
+	git config --global merge.defaultToUpstream true
+
 diff:
 	-diff ${HOME}/.zshrc            _zshrc
 	-diff ${HOME}/.zprofile         _zprofile
@@ -33,4 +36,4 @@ diff:
 	-diff ${HOME}/.pythonrc         _pythonrc
 
 help:
-	echo "make <deploy|gather|dir|diff|help>"
+	echo "make <deploy|gather|dir|config|diff|help>"
