@@ -2,6 +2,7 @@
 	default = simple
 [merge]
 	defaultToUpstream = true
+	ff = false
 [include]
     path = ~/.gitconfig.local
 
