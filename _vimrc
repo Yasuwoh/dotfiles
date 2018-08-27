@@ -24,8 +24,11 @@ set autoindent
 set smartindent
 set expandtab
 "set cindent
+" タブ(文字コード9)を何文字分のスペースで表示するか
 set tabstop=4
-set softtabstop=4
+" タブキーを押した時に何文字分のスペースが挿入されるか。0でtabstopと同値
+set softtabstop=0
+" 自動インデントで何文字分のスペースが挿入されるか
 set shiftwidth=4
 
 " コマンド履歴
