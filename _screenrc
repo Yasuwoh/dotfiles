@@ -18,6 +18,9 @@ zombie kr # k: destroy window, r: resurrect window
 # echo command name whenever a window is created or resurrected
 #verbose on
 
+# threshold time for silence
+silencewait 10
+
 # changes the name of logfile
 #deflog on
 logfile '.screen/log/screenlog.%H.%Y-%m-%d-%02c:%s-%n.log'
@@ -228,7 +231,8 @@ caption always '%?%F%{.bW}%:%{.Kw}%?No.%n%f%07=%?%F%{..C}%:%{..c}%?%t%{-}%?%F%{.
 #                                                                                                                        %?%F%{..G}%:%{..g}%?   -- ハードステータスの色は緑
 #                                                                                                                                            %h -- ウィンドウのハードステータス
 
-hardstatus alwayslastline '%{= .g}%H%{-}%?%E^^T%:  %? %L=%-w%45L>%{=u b.}%n %t%{-}%+w %-37<%=%{= .y}(%l) %{-}%Y/%m/%d %02c:%s'
+#hardstatus alwayslastline '%{= .g}%H%{-}%?%E^^T%:  %? %L=%-w%45L>%{=u b.}%n %t%{-}%+w %-37<%=%{= .y}(%l) %{-}%Y/%m/%d %02c:%s'
+hardstatus alwayslastline '%{= .g}%H%{-}%?%E^^T%:  %? %L=%-w%45L>%{=u b.}%n %t%{-}%+w %-37<%=%?%0`%0`%:%{= .y}(%l) %{-}%Y/%m/%d %02c:%s%?'
 #                          %{= .g}%H%{-}                                                                                      -- ホスト名
 #                                       %?%E   %:  %?                                                                         -- コマンドモードか否か(%E)を条件にする
 #                                           ^^T                                                                               -- コマンドモードならば、"^T"を表示。(^をエスケープするには、^^と重ねる)

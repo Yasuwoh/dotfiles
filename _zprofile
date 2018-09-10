@@ -1,17 +1,29 @@
 [ -f /etc/profile ] && source /etc/profile
 
+export LANG=ja_JP.UTF-8
+
 if [ -d $HOME/bin ] ; then
 	PATH=$HOME/bin:$PATH
 fi
+if [ -d $HOME/.local/bin ] ; then
+    PATH=$HOME/.local/bin:$PATH
+fi
 export PATH
-
-export LANG=ja_JP.UTF-8
 
 if [ -f "$HOME/.pythonrc" ] ; then
     export PYTHONSTARTUP="$HOME/.pythonrc"
 fi
 
 [ -f ${HOME}/.zprofile.local ] && source ${HOME}/.zprofile.local
+
+#SSH_AGENT_SCOKET=~/.ssh/agent
+#if [ ! -S "${SSH_AGENT_SCOKET}" ] ; then
+#    eval `ssh-agent -a ${SSH_AGENT_SCOKET} -s`
+#else
+#    SSH_AUTH_SOCK="${SSH_AGENT_SCOKET}"; export SSH_AUTH_SOCK;
+#    SSH_AGENT_PID=28062; export SSH_AGENT_PID;
+#fi
+#unset SSH_AGENT_SCOKET
 
 [ -n "`which screen 2> /dev/null`" ] && screen -x -RR
 

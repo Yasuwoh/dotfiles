@@ -28,8 +28,8 @@ set expandtab
 set tabstop=4
 " タブキーを押した時に何文字分のスペースが挿入されるか。0でtabstopと同値
 set softtabstop=0
-" 自動インデントで何文字分のスペースが挿入されるか
-set shiftwidth=4
+" 自動インデントで何文字分のスペースが挿入されるか。0でtabstopと同値
+set shiftwidth=0
 
 " コマンド履歴
 set history=200
@@ -228,3 +228,6 @@ filetype indent on
 " 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
 " The following changes the default filetype back to 'tex':
 let g:tex_flavor='platex'
+
+" ファイルタイプ個別の設定
+autocmd FileType yaml   setlocal tabstop=2
