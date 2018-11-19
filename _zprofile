@@ -8,6 +8,9 @@ fi
 if [ -d $HOME/.local/bin ] ; then
     PATH=$HOME/.local/bin:$PATH
 fi
+if [ -d $HOME/.rbenv/bin ] ; then
+    PATH=$HOME/.rbenv/bin:$PATH
+fi
 export PATH
 
 if [ -f "$HOME/.pythonrc" ] ; then
@@ -25,5 +28,5 @@ fi
 #fi
 #unset SSH_AGENT_SCOKET
 
-[ -n "`which screen 2> /dev/null`" ] && screen -x -RR
+#[ -n "`which screen 2> /dev/null`" ] && screen -x -RR
 

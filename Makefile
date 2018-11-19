@@ -9,6 +9,7 @@ gather:
 	install -m 644 ${HOME}/.vimrc           _vimrc
 	install -m 644 ${HOME}/.pythonrc        _pythonrc 
 	install -m 644 ${HOME}/.gitconfig       _gitconfig
+	install -m 644 ${HOME}/.tmux.conf       _tmux.conf
 
 deploy: dir
 	install -m 644 _zshrc           ${HOME}/.zshrc
@@ -18,6 +19,7 @@ deploy: dir
 	install -m 644 _vimrc           ${HOME}/.vimrc
 	install -m 644 _pythonrc        ${HOME}/.pythonrc
 	install -m 644 _gitconfig       ${HOME}/.gitconfig
+	install -m 644 _tmux.conf       ${HOME}/.tmux.conf
 
 dir:
 	install -d -m 755 ${HOME}/.vimbackup
@@ -33,7 +35,8 @@ diff:
 	-diff ${HOME}/.screen/layout    _screen_layout
 	-diff ${HOME}/.vimrc            _vimrc
 	-diff ${HOME}/.pythonrc         _pythonrc
-	-diff ${HOME}/.gitconfig       _gitconfig
+	-diff ${HOME}/.gitconfig        _gitconfig
+	-diff ${HOME}/.tmux.conf        _tmux.conf
 
 help:
 	echo "make <deploy|gather|dir|diff|help>"
