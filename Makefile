@@ -20,6 +20,7 @@ deploy: dir
 	install -m 644 _pythonrc        ${HOME}/.pythonrc
 	install -m 644 _gitconfig       ${HOME}/.gitconfig
 	install -m 644 _tmux.conf       ${HOME}/.tmux.conf
+	install -m 755 get_tmux_loadavg	${HOME}/bin/get_tmux_loadavg
 
 dir:
 	install -d -m 755 ${HOME}/.vimbackup
@@ -27,6 +28,7 @@ dir:
 	install -d -m 755 ${HOME}/.screen
 	install -d -m 755 ${HOME}/.screen/hardcopy
 	install -d -m 755 ${HOME}/.screen/log
+	install -d -m 755 ${HOME}/bin
 
 diff:
 	-diff ${HOME}/.zshrc            _zshrc
