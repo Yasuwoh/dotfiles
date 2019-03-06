@@ -24,12 +24,14 @@ deploy: dir
 	install -m 755 bin/cat_timestamp	${HOME}/bin/cat_timestamp
 
 dir:
+	install -d -m 755 ${HOME}/bin
 	install -d -m 755 ${HOME}/.vimbackup
 	install -d -m 755 ${HOME}/.vimundo
 	install -d -m 755 ${HOME}/.screen
 	install -d -m 755 ${HOME}/.screen/hardcopy
 	install -d -m 755 ${HOME}/.screen/log
-	install -d -m 755 ${HOME}/bin
+	install -d -m 755 ${HOME}/.tmux
+	install -d -m 755 ${HOME}/.tmux/log
 
 diff:
 	-diff ${HOME}/.zshrc            _zshrc
