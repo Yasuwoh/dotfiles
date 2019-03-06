@@ -20,7 +20,8 @@ deploy: dir
 	install -m 644 _pythonrc        ${HOME}/.pythonrc
 	install -m 644 _gitconfig       ${HOME}/.gitconfig
 	install -m 644 _tmux.conf       ${HOME}/.tmux.conf
-	install -m 755 get_tmux_loadavg	${HOME}/bin/get_tmux_loadavg
+	install -m 755 bin/get_tmux_loadavg	${HOME}/bin/get_tmux_loadavg
+	install -m 755 bin/cat_timestamp	${HOME}/bin/cat_timestamp
 
 dir:
 	install -d -m 755 ${HOME}/.vimbackup
