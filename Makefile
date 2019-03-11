@@ -33,6 +33,7 @@ dir:
 	install -d -m 755 ${HOME}/.screen/log
 	install -d -m 755 ${HOME}/.tmux
 	install -d -m 755 ${HOME}/.tmux/log
+	install -d -m 755 ${HOME}/.tmux/hardcopy
 
 diff:
 	-diff ${HOME}/.zshrc            _zshrc
@@ -46,3 +47,4 @@ diff:
 
 help:
 	echo "make <deploy|gather|dir|diff|help>"
+
