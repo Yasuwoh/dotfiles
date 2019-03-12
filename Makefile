@@ -21,6 +21,7 @@ deploy: dir
 	install -m 644 _gitconfig       ${HOME}/.gitconfig
 	install -m 644 _tmux.conf       ${HOME}/.tmux.conf
 	install -m 755 bin/get_tmux_loadavg	${HOME}/bin/get_tmux_loadavg
+	install -m 755 bin/get_tmux_free	${HOME}/bin/get_tmux_free
 	install -m 755 bin/cat_timestamp	${HOME}/bin/cat_timestamp
 
 dir:
@@ -32,6 +33,7 @@ dir:
 	install -d -m 755 ${HOME}/.screen/log
 	install -d -m 755 ${HOME}/.tmux
 	install -d -m 755 ${HOME}/.tmux/log
+	install -d -m 755 ${HOME}/.tmux/hardcopy
 
 diff:
 	-diff ${HOME}/.zshrc            _zshrc
@@ -45,3 +47,4 @@ diff:
 
 help:
 	echo "make <deploy|gather|dir|diff|help>"
+
