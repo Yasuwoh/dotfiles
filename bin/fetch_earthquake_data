@@ -1,0 +1,12 @@
+#!/bin/bash
+
+EQURL="https://api.p2pquake.net/v1/human-readable"
+
+json=`curl "${EQURL}"`
+
+time=`jq -r '.[0].earthquake.time' <<< ${json}`
+scale=`jq -r '.[0].earthquake.maxScale' <<< ${json}`
+hypocenter=`jq -r '.[0].earthquake.hypocenter.name' <<< ${json}`
+
+echo "${time} ${hypocenter} ${scale}"
+
