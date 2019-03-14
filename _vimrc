@@ -13,6 +13,7 @@ set hlsearch
 set number
 " 現在行に下線を表示
 set cursorline
+highlight CursorLine cterm=None ctermbg=234
 " 長い行は折り返す
 set wrap
 " ルーラーを使う・・・が、statuslineを使っているので無意味
