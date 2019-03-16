@@ -11,7 +11,7 @@ eqinfofile = '~/.tmux/earthquakeinfo.txt'
 eqinfointerval = datetime.timedelta (minutes = 1)
 equrl = 'https://api.p2pquake.net/v1/human-readable'
 blinkscale = 40
-reportspan = datetime.timedelta (hours = 1)
+reportspan = datetime.timedelta (minutes = 10)
 viewtime = datetime.timedelta (seconds = 10)
 
 # コード変換
