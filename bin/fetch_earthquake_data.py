@@ -16,7 +16,7 @@ viewtime = datetime.timedelta (seconds = 10)
 
 # コード変換
 Scale = {
-        0: '揺れ無し',
+        0: '震度0',
         10: '震度1',
         20: '震度2',
         30: '震度3',
@@ -87,8 +87,8 @@ def main():
                     eqtime.strftime ('%H:%M'),
                     eqhcname,
                     eqhcmagnitude,
-                    Scale[eqscale],
-                    Tsunami[eqtsunami],
+                    Scale.get (eqscale, ''),
+                    Tsunami.get (eqtsunami, ''),
                     )).strip()
                 if eqscale >= blinkscale:
                     eqline = '#[blink]' + eqline + '#[default]'
@@ -108,7 +108,11 @@ def main():
 
             # 現在時刻に基づいて eqinfo から一件出力
             i = int( ( time.mktime (nowdt.timetuple()) / viewtime.total_seconds() ) % len(eqinfo) )
-            print (eqinfo[i])
+            output = eqinfo[i]
+            if len(eqinfo) >= 2:
+                output += '[%d/%d]' % (i + 1, len(eqinfo))
+            output += ' '
+            print (output)
 
 if __name__ == '__main__':
     main()
