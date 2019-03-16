@@ -23,6 +23,7 @@ deploy: dir
 	install -m 755 bin/get_tmux_loadavg	${HOME}/bin/get_tmux_loadavg
 	install -m 755 bin/get_tmux_free	${HOME}/bin/get_tmux_free
 	install -m 755 bin/cat_timestamp	${HOME}/bin/cat_timestamp
+	install -m 755 bin/fetch_earthquake_data.py ${HOME}/bin/fetch_earthquake_data.py
 
 dir:
 	install -d -m 755 ${HOME}/bin
