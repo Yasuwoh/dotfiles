@@ -52,7 +52,8 @@ def main():
     # ab_eqinfofile のタイムスタンプが更新インターバルより古ければ、取得しに行く
     try:
         try:
-            mdt = datetime.datetime.fromtimestamp (os.stat(ab_eqinfofile).st_mtime)
+            stat = os.stat(ab_eqinfofile)
+            mdt = datetime.datetime.fromtimestamp (stat.st_mtime)
             if nowdt - mdt > eqinfointerval:
                 raise NeedToUpdateEqInfo()
         except OSError:
@@ -99,9 +100,10 @@ def main():
             fd.write ('\n'.join (eqinfo))
     else:
         # ファイルから地震情報を読み込む
-        with open (ab_eqinfofile, 'r') as fd:
-            for line in fd:
-                eqinfo.append (line.strip())
+        if stat.st_size > 0:
+            with open (ab_eqinfofile, 'r') as fd:
+                for line in fd:
+                    eqinfo.append (line.strip())
 
     finally:
         if len(eqinfo) > 0:
