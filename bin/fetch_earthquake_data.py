@@ -95,13 +95,13 @@ def main():
                 eqinfo.append (eqline)
 
         # ファイルへ書き込む
-        fd = open (ab_eqinfofile, 'w')
-        fd.write ('\n'.join (eqinfo))
+        with open (ab_eqinfofile, 'w') as fd:
+            fd.write ('\n'.join (eqinfo))
     else:
         # ファイルから地震情報を読み込む
-        fd = open (ab_eqinfofile, 'r')
-        for line in fd:
-            eqinfo.append (line.strip())
+        with open (ab_eqinfofile, 'r') as fd:
+            for line in fd:
+                eqinfo.append (line.strip())
 
     finally:
         if len(eqinfo) > 0:
