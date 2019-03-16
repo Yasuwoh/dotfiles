@@ -13,6 +13,7 @@ set hlsearch
 set number
 " 現在行に下線を表示
 set cursorline
+highlight CursorLine cterm=None ctermbg=234
 " 長い行は折り返す
 set wrap
 " ルーラーを使う・・・が、statuslineを使っているので無意味
@@ -67,10 +68,10 @@ set incsearch   " インクリメンタルサーチを行う
 " インサートモードを開始したキャレットよりも前の文字列を消せる
 set backspace=indent,eol,start
 " マウスを使う
-if exists ("mouse")
+if has ("mouse")
     " どのモードでもマウスを使う
 	set mouse=a
-    "
+    " xterm のマウスエミュレート。しかも、ドラッグ中の内容も可視化する。
 	set ttymouse=xterm2
 endif
 " 長い行でも自動的に改行しない
