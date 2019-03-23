@@ -1,5 +1,5 @@
 all: help
-.PHONY: all gather deploy dir diff help
+.PHONY: all gather deploy dir fortunes diff clean help
 
 gather:
 	install -m 644 ${HOME}/.zshrc           _zshrc
@@ -37,6 +37,9 @@ dir:
 	install -d -m 755 ${HOME}/.tmux/log
 	install -d -m 755 ${HOME}/.tmux/hardcopy
 
+fortunes: 
+	make -C $@
+
 diff:
 	-diff ${HOME}/.zshrc            _zshrc
 	-diff ${HOME}/.zprofile         _zprofile
@@ -47,6 +50,9 @@ diff:
 	-diff ${HOME}/.gitconfig        _gitconfig
 	-diff ${HOME}/.tmux.conf        _tmux.conf
 
+clean:
+	make -C fortunes clean
+
 help:
-	echo "make <deploy|gather|dir|diff|help>"
+	@echo "make <deploy|gather|dir|diff|clean|help>"
 
