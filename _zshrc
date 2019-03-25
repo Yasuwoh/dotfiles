@@ -311,5 +311,12 @@ esac
 [ -f ${HOME}/.zshrc.local ] && source ${HOME}/.zshrc.local
 
 # おみくじ
-[ -n "`which fortune 2> /dev/null`" ] && fortune -s
+which fortune >/dev/null 2>&1
+if [ $? -eq 0 ] ; then
+    if [ -d "${HOME}/fortunes" ] ; then
+        fortune ${HOME}/fortunes
+    else
+        fortune -a
+    fi
+fi
 
