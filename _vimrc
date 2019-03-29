@@ -96,6 +96,10 @@ set statusline=%f%m%r%h%w%q\ %<<%{getcwd()}>%=\ [%l,%c%V,%P][%{&ff}][%{&fileenco
 " %{&fileencoding}: ファイルエンコーディング(文字コード)
 " %y: ファイルタイプ(シンタックス)
 "
+" アクティブなペインのステータスバーのハイライト
+" カラー端末ではシアン、GUIでは青にする
+highlight StatusLine ctermfg=cyan guifg=blue
+"
 " 論理行よりむしろ、見えている行でカーソル移動
 nnoremap j gj
 nnoremap k gk
