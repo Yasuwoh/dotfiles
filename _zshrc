@@ -198,14 +198,26 @@ function +vi-vcs-git-stash-count() {
         hook_com[misc]+="(${stash})"
     fi
 }
-## リポジトリ配下における、通常時の文字列を指定。1行目はプロンプトで、2行目はハードステータスで使うことを想定。
-zstyle ':vcs_info:git:*' formats \
-    '/%F{red}%r%f:%F{green}%b%f%m%F{blue}%c%f%F{yellow}%u%f' \
-    ' [%s]%r:%b%m%c%u'
-## リポジトリ配下における、異常(e.g. コンフリクト)時の文字列を指定。1行目はプロンプトで、2行目はハードステータスで使うことを想定。
-zstyle ':vcs_info:git:*' actionformats \
-    '/%F{red}%r%f:%F{green}%b%f%m%F{blue}%c%f%F{yellow}%u%f-%F{red}%a%f' \
-    ' [%s]%r:%b%m%c%u-%a'
+## リポジトリ配下における、通常時の文字列を指定。
+#1行目はプロンプトで、2行目はハードステータスで使うことを想定。
+if [ "${TMUX}" ] ; then
+    zstyle ':vcs_info:git:*' formats \
+        '/%F{red}%r%f:%F{green}%b%f%m%F{blue}%c%f%F{yellow}%u%f' \
+        '#[default] #[bg=green,fg=black]%s#[default]:#[bg=red,fg=white]%r#[default]:#[bg=blue,fg=white]%b#[bg=yellow,fg=black]%m%c%u#[default]'
+
+    ## リポジトリ配下における、異常(e.g. コンフリクト)時の文字列を指定。1行目はプロンプトで、2行目はハードステータスで使うことを想定。
+    zstyle ':vcs_info:git:*' actionformats \
+        '/%F{red}%r%f:%F{green}%b%f%m%F{blue}%c%f%F{yellow}%u%f-%F{red}%a%f' \
+        '#[default] #[bg=green,fg=black]%s#[default]:#[bg=red,fg=white]%r#[default]:#[bg=blue,fg=white]%b#[bg=yellow,fg=black]%m%c%u-#[bg=red,fg=white]%a#[default]'
+else
+    zstyle ':vcs_info:git:*' formats \
+        '/%F{red}%r%f:%F{green}%b%f%m%F{blue}%c%f%F{yellow}%u%f' \
+        ' [%s]%r:%b%m%c%u'
+
+    zstyle ':vcs_info:git:*' actionformats \
+        '/%F{red}%r%f:%F{green}%b%f%m%F{blue}%c%f%F{yellow}%u%f-%F{red}%a%f' \
+        ' [%s]%r:%b%m%c%u-%a'
+fi
 
 
 # 予測補完
@@ -283,6 +295,7 @@ screen*)
     function precmd_hardstatus() {
         # ハードステータス(ウィンドウタイトル)の設定
         echo -ne "\e]0;${USER}@${HOST%%.*}:${PWD}${vcs_info_msg_1_}\007"
+
     }
 
     function precmd_screen_title() {
@@ -311,12 +324,14 @@ esac
 [ -f ${HOME}/.zshrc.local ] && source ${HOME}/.zshrc.local
 
 # おみくじ
-which fortune >/dev/null 2>&1
-if [ $? -eq 0 ] ; then
-    if [ -d "${HOME}/fortunes" ] ; then
-        fortune ${HOME}/fortunes
-    else
-        fortune -a
+if [ "${TMUX}" ] ; then
+    which fortune >/dev/null 2>&1
+    if [ $? -eq 0 ] ; then
+        if [ -d "${HOME}/fortunes" ] ; then
+            fortune ${HOME}/fortunes
+        else
+            fortune -a
+        fi
     fi
 fi
 
