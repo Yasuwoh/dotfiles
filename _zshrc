@@ -38,7 +38,7 @@ case ${UID} in
 0)
     PROMPT="%F{cyan}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') %B%F{red}%/#%f%b "
     PROMPT2="%B%F{red}%_#%f%b "
-    SPROMPT="%B%F{red}%r is correct? [n,y,a,e]:%f%b "
+    SPROMPT="%B%F{red}%r is correct? [No, yes, abort, edit]:%f%b "
     ;;
 ## スーパーユーザ以外の場合
 *)
@@ -53,7 +53,7 @@ case ${UID} in
     PROMPT2='%F{red}%_%%%f '
         ### <入力中の対象>%
     ## 入力ミスに対するサジェストプロンプト
-    SPROMPT='%F{red}%r%f is correct? [n,y,a,e]: '
+    SPROMPT='%F{red}%r%f is correct? [No, yes, abort, edit]: '
         ### <サジェスト> is correct ?
     ;;
 esac
@@ -203,12 +203,12 @@ function +vi-vcs-git-stash-count() {
 if [ "${TMUX}" ] ; then
     zstyle ':vcs_info:git:*' formats \
         '/%F{red}%r%f:%F{green}%b%f%m%F{blue}%c%f%F{yellow}%u%f' \
-        '#[default] #[bg=green,fg=black]%s#[default]:#[bg=red,fg=white]%r#[default]:#[bg=blue,fg=white]%b#[bg=yellow,fg=black]%m%c%u#[default]'
+        '#[default] #[bg=green,fg=black]%s#[bg=red,fg=white] %r #[bg=blue,fg=white] %b #[bg=yellow,fg=black]%m%c%u#[default]'
 
     ## リポジトリ配下における、異常(e.g. コンフリクト)時の文字列を指定。1行目はプロンプトで、2行目はハードステータスで使うことを想定。
     zstyle ':vcs_info:git:*' actionformats \
         '/%F{red}%r%f:%F{green}%b%f%m%F{blue}%c%f%F{yellow}%u%f-%F{red}%a%f' \
-        '#[default] #[bg=green,fg=black]%s#[default]:#[bg=red,fg=white]%r#[default]:#[bg=blue,fg=white]%b#[bg=yellow,fg=black]%m%c%u-#[bg=red,fg=white]%a#[default]'
+        '#[default] #[bg=green,fg=black]%s#[bg=red,fg=white] %r #[bg=blue,fg=white] %b #[bg=yellow,fg=black]%m%c%u#[bg=red,fg=white]-%a#[default]'
 else
     zstyle ':vcs_info:git:*' formats \
         '/%F{red}%r%f:%F{green}%b%f%m%F{blue}%c%f%F{yellow}%u%f' \
@@ -258,6 +258,8 @@ alias grep='grep --color=always'
 alias less='less -R'
 #
 alias kachi='make'
+#
+alias info='info --vi-keys'
 
 
 # ターミナル固有のカラー設定
