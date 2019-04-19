@@ -79,7 +79,7 @@ set textwidth=0
 " ステータスラインを常に表示
 set laststatus=2
 " ステータスラインの文字列
-set statusline=%n:%f%m%r%h%w%q\ %=%<%{getcwd()}\ [%l,%c%V,%P][%{&ff}][%{&fileencoding}]%y
+set statusline=%n:%f%m%r%h%w%q\ %=%<%{getcwd()}\ [%l,%c%V,%P,%o][%B][%{&ff}][%{&fileencoding}]%y
 " %n: バッファ番号
 " %f: ファイル名(相対パス)
 " %m: 編集フラグ [+]
@@ -119,6 +119,11 @@ if !has('gui_running')
     endif
     " タイトル文字列
     set titlestring=%{GetTitleString()}
+endif
+
+" clipboardが有効ならば、yankをクリップボードと連携
+if has('clipboard')
+    set clipboard=unnamed,autoselect
 endif
 
 " タイトル文字列
