@@ -100,7 +100,7 @@ set statusline=%n:%f%m%r%h%w%q\ %=%<%{getcwd()}\ [%l,%c%V,%P,%o][%B][%{&ff}][%{&
 "
 " アクティブなペインのステータスバーのハイライト
 " カラー端末ではシアン、GUIでは青にする
-highlight StatusLine ctermfg=cyan guifg=blue
+highlight StatusLine ctermfg=cyan guifg=darkblue
 "
 " 論理行よりむしろ、見えている行でカーソル移動
 nnoremap j gj
