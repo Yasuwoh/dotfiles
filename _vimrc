@@ -79,7 +79,8 @@ set textwidth=0
 " ステータスラインを常に表示
 set laststatus=2
 " ステータスラインの文字列
-set statusline=%f%m%r%h%w%q\ %<<%{getcwd()}>%=\ [%l,%c%V,%P][%{&ff}][%{&fileencoding}]%y
+set statusline=%n:%f%m%r%h%w%q\ %=%<%{getcwd()}\ [%l,%c%V,%P,%o][%B][%{&ff}][%{&fileencoding}]%y
+" %n: バッファ番号
 " %f: ファイル名(相対パス)
 " %m: 編集フラグ [+]
 " %r: 読み取り専用フラグ [RO]
@@ -92,13 +93,14 @@ set statusline=%f%m%r%h%w%q\ %<<%{getcwd()}>%=\ [%l,%c%V,%P][%{&ff}][%{&fileenco
 " %l: 行番号
 " %c: 列番号
 " %V: 仮想列番号。実列番号(%c)と同一の場合は、空文字列
+" %P: 表示パーセンテージ
 " %{&ff}: ファイルフォーマット(改行コード)
 " %{&fileencoding}: ファイルエンコーディング(文字コード)
 " %y: ファイルタイプ(シンタックス)
 "
 " アクティブなペインのステータスバーのハイライト
 " カラー端末ではシアン、GUIでは青にする
-highlight StatusLine ctermfg=cyan guifg=blue
+highlight StatusLine ctermfg=cyan guifg=darkblue
 "
 " 論理行よりむしろ、見えている行でカーソル移動
 nnoremap j gj
@@ -117,6 +119,11 @@ if !has('gui_running')
     endif
     " タイトル文字列
     set titlestring=%{GetTitleString()}
+endif
+
+" clipboardが有効ならば、yankをクリップボードと連携
+if has('clipboard')
+    set clipboard=unnamed,autoselect
 endif
 
 " タイトル文字列
