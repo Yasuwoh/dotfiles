@@ -15,7 +15,7 @@ def main():
             '-F', '--footer', default = None, type = str,
             help = 'Footer' )
     parser.add_argument (
-            '-t', '--ftime', default = '[%Y-%m-%d %H:%M:%S%z%Z] ', type = str,
+            '-t', '--ftime', default = '[%Y-%m-%dT%H:%M:%S%z%Z] ', type = str,
             help = 'strftime format' )
     parser.add_argument (
             '-u', '--utc', action = 'store_true',
