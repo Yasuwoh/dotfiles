@@ -1,6 +1,39 @@
-#!/bin/sh
+#!/usr/bin/env python3
 
-while read line
-do
-    echo `date '+[%Y-%m-%d %H:%M:%S%z]'` $line
-done
+import argparse
+import sys
+from datetime import datetime, timezone
+
+def main():
+    parser = argparse.ArgumentParser(
+            description = 'my cat_timestamp2'
+            )
+    parser.add_argument (
+            '-H', '--header', default = None, type = str,
+            help = 'Header' )
+    parser.add_argument (
+            '-F', '--footer', default = None, type = str,
+            help = 'Footer' )
+    parser.add_argument (
+            '-t', '--ftime', default = '[%Y-%m-%dT%H:%M:%S%z%Z] ', type = str,
+            help = 'strftime format' )
+    parser.add_argument (
+            '-u', '--utc', action = 'store_true',
+            help = 'use UTC instead of local time' )
+    args = parser.parse_args()
+
+    tz = timezone.utc if args.utc else datetime.now().astimezone().tzinfo
+
+    if args.header:
+        print (args.header)
+
+    for line in sys.stdin:
+        now = datetime.now (tz = tz)
+        print (now.strftime (args.ftime) + line.strip())
+
+    if args.footer:
+        print (args.footer)
+
+
+if __name__ == '__main__':
+    main()
