@@ -1,4 +1,4 @@
-all: Civilization4.dat Civilization5.dat Law.dat
+all: Civilization4.dat Civilization5.dat Law.dat Definition.dat
 
 .PHONY: all install dir clean
 
@@ -11,6 +11,9 @@ Civilization5.dat: Civilization5
 Law.dat: Law
 	strfile $< $@
 
+Definition.dat: Definition
+	strfile $< $@
+
 install: dir all
 	install -m 644 Civilization4     ${HOME}/fortunes
 	install -m 644 Civilization4.dat ${HOME}/fortunes
@@ -18,6 +21,8 @@ install: dir all
 	install -m 644 Civilization5.dat ${HOME}/fortunes
 	install -m 644 Law ${HOME}/fortunes
 	install -m 644 Law.dat ${HOME}/fortunes
+	install -m 644 Definition ${HOME}/fortunes
+	install -m 644 Definition.dat ${HOME}/fortunes
 
 dir:
 	install -d -m 755 ${HOME}/fortunes
