@@ -330,9 +330,18 @@ if [ "${TMUX}" ] ; then
     which fortune >/dev/null 2>&1
     if [ $? -eq 0 ] ; then
         if [ -d "${HOME}/fortunes" ] ; then
-            fortune ${HOME}/fortunes
+            which cowsay >/dev/null 2>&1
+            if [ $? -eq 0 ] ; then
+                fortune ${HOME}/fortunes | cowsay
+            else
+                fortune ${HOME}/fortunes
+            fi
         else
-            fortune -a
+            if [ $? -eq 0 ] ; then
+                fortune -a | cowsay
+            else
+                fortune -a
+            fi
         fi
     fi
 fi
