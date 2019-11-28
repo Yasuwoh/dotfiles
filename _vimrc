@@ -19,7 +19,7 @@ set wrap
 " ルーラーを使う・・・が、statuslineを使っているので無意味
 set ruler
 " シンタックスハイライト
-syntax on
+" syntax on "  こうすると、Kaoriya-VimでIME ONのときにカーソルが紫にならない。
 " インデント周り
 set autoindent
 set smartindent
