@@ -333,12 +333,14 @@ if [ "${TMUX}" ] ; then
             which cowsay >/dev/null 2>&1
             if [ $? -eq 0 ] ; then
                 fortune ${HOME}/fortunes | cowsay
+                # fortune ${HOME}/fortunes | cowsay -W $((`tput cols` - 3))
             else
                 fortune ${HOME}/fortunes
             fi
         else
             if [ $? -eq 0 ] ; then
                 fortune -a | cowsay
+                # fortune -a | cowsay -W $((`tput cols` - 3))
             else
                 fortune -a
             fi
