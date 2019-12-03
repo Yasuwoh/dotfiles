@@ -31,6 +31,9 @@ setopt nolistbeep
 ## 拡張globを使う。ファイル名展開に色々特殊な記法が使えるようになるけど、難解。
 # setopt extendedglob
 
+# 環境変数PATHシリーズに重複したディレクトリを入れない
+typeset -U PATH CDPATH FPATH MANPATH
+
 
 # プロンプト設定
 case ${UID} in
