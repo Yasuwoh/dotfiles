@@ -1,6 +1,8 @@
 all: help
 .PHONY: all gather deploy dir diff clean help
 
+DIFF=-u
+
 gather:
 	install -m 644 ${HOME}/.zshrc           _zshrc
 	install -m 644 ${HOME}/.zprofile        _zprofile
@@ -39,14 +41,14 @@ dir:
 	install -d -m 755 ${HOME}/.tmux/hardcopy
 
 diff:
-	-diff ${HOME}/.zshrc            _zshrc
-	-diff ${HOME}/.zprofile         _zprofile
-	-diff ${HOME}/.screenrc         _screenrc
-	-diff ${HOME}/.screen/layout    _screen_layout
-	-diff ${HOME}/.vimrc            _vimrc
-	-diff ${HOME}/.pythonrc         _pythonrc
-	-diff ${HOME}/.gitconfig        _gitconfig
-	-diff ${HOME}/.tmux.conf        _tmux.conf
+	-diff $(DIFF) ${HOME}/.zshrc            _zshrc
+	-diff $(DIFF) ${HOME}/.zprofile         _zprofile
+	-diff $(DIFF) ${HOME}/.screenrc         _screenrc
+	-diff $(DIFF) ${HOME}/.screen/layout    _screen_layout
+	-diff $(DIFF) ${HOME}/.vimrc            _vimrc
+	-diff $(DIFF) ${HOME}/.pythonrc         _pythonrc
+	-diff $(DIFF) ${HOME}/.gitconfig        _gitconfig
+	-diff $(DIFF) ${HOME}/.tmux.conf        _tmux.conf
 
 clean:
 	make -C fortunes clean
