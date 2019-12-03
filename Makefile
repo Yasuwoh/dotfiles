@@ -1,5 +1,5 @@
 all: help
-.PHONY: all gather deploy dir diff clean help
+.PHONY: all gather deploy dir gitrepos diff clean help
 
 DIFF=-u
 
@@ -31,6 +31,8 @@ deploy: dir
 
 dir:
 	install -d -m 755 ${HOME}/bin
+	install -d -m 755 ${HOME}/gitrepos
+	install -d -m 755 ${HOME}/.vim/pack
 	install -d -m 755 ${HOME}/.vimbackup
 	install -d -m 755 ${HOME}/.vimundo
 	install -d -m 755 ${HOME}/.screen
@@ -39,6 +41,31 @@ dir:
 	install -d -m 755 ${HOME}/.tmux
 	install -d -m 755 ${HOME}/.tmux/log
 	install -d -m 755 ${HOME}/.tmux/hardcopy
+	install -d -m 755 ${HOME}/.zsh/plugins
+
+gitrepos: dir
+	git clone https://github.com/vim/vim.git \
+		${HOME}/gitrepos/vim
+	git clone https://github.com/vim-jp/vimdoc-ja.git \
+		${HOME}/gitrepos/vimdoc-ja
+	git clone https://github.com/tmux/tmux.git \
+		${HOME}/gitrepos/tmux
+	git clone https://github.com/zsh-users/zsh-completions \
+		${HOME}/gitrepos/zsh-completions
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
+		${HOME}/gitrepos/zsh-syntax-highlighting
+	git clone https://github.com/zsh-users/zaw.git \
+		${HOME}/gitrepos/zaw
+	#
+	install -d -m 755 ${HOME}/.vim/pack/vimdoc-ja/start
+	ln -s ${HOME}/gitrepos/vimdoc-ja \
+		${HOME}/.vim/pack/vimdoc-ja/start/vimdoc-ja
+	ln -s ${HOME}/gitrepos/zsh-completions \
+		${HOME}/.zsh/plugins/zsh-completions
+	ln -s ${HOME}/gitrepos/zsh-syntax-highlighting \
+		${HOME}/.zsh/plugins/zsh-syntax-highlighting
+	ln -s ${HOME}/gitrepos/zaw \
+		${HOME}/.zsh/plugins/zaw
 
 diff:
 	-diff $(DIFF) ${HOME}/.zshrc            _zshrc
