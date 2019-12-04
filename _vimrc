@@ -19,7 +19,11 @@ set wrap
 " ルーラーを使う・・・が、statuslineを使っているので無意味
 set ruler
 " シンタックスハイライト
-syntax on
+if has('gui') && (has('win32') || has('win64'))
+    " syntax on "  こうすると、Kaoriya-VimでIME ONのときにカーソルが紫にならない。
+else
+    syntax on
+endif
 " インデント周り
 set autoindent
 set smartindent
