@@ -1,24 +1,23 @@
+# /etc/profile があれば使う
 [ -f /etc/profile ] && source /etc/profile
 
 export LANG=ja_JP.UTF-8
 
-if [ -d $HOME/bin ] ; then
-	PATH=$HOME/bin:$PATH
-fi
-if [ -d $HOME/.local/bin ] ; then
-    PATH=$HOME/.local/bin:$PATH
-fi
-if [ -d $HOME/.rbenv/bin ] ; then
-    PATH=$HOME/.rbenv/bin:$PATH
-fi
+# ホームディレクトリにある bin ディレクトリにパスを通す
+[ -d $HOME/.local/bin ] && PATH=$HOME/.local/bin:$PATH
+[ -d $HOME/.rbenv/bin ] && PATH=$HOME/.rbenv/bin:$PATH
+[ -d $HOME/bin ]        && PATH=$HOME/bin:$PATH
 export PATH
 
+# pythonstartup を指定
 if [ -f "$HOME/.pythonrc" ] ; then
     export PYTHONSTARTUP="$HOME/.pythonrc"
 fi
 
+# ローカル用 zprofile があれば使う
 [ -f ${HOME}/.zprofile.local ] && source ${HOME}/.zprofile.local
 
+# SSHエージェントに関する設定
 #SSH_AGENT_SCOKET=~/.ssh/agent
 #if [ ! -S "${SSH_AGENT_SCOKET}" ] ; then
 #    eval `ssh-agent -a ${SSH_AGENT_SCOKET} -s`
@@ -28,5 +27,6 @@ fi
 #fi
 #unset SSH_AGENT_SCOKET
 
+# screen があれば自動起動
 #[ -n "`which screen 2> /dev/null`" ] && screen -x -RR
 
