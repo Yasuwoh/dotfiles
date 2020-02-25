@@ -11,11 +11,12 @@ set showcmd
 set hlsearch
 " 行番号を表示
 set number
-" 現在行に下線を表示
+" 現在行をハイライト
 set cursorline
-set cursorcolumn
 highlight CursorLine cterm=None ctermbg=234
 highlight CursorLineNr cterm=None ctermbg=234
+" 現在列をハイライト
+set cursorcolumn
 highlight CursorColumn cterm=None ctermbg=234
 " 長い行は折り返す
 set wrap
