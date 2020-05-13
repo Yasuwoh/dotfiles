@@ -31,6 +31,9 @@ setopt nolistbeep
 ## 拡張globを使う。ファイル名展開に色々特殊な記法が使えるようになるけど、難解。
 # setopt extendedglob
 
+# 環境変数PATHシリーズに重複したディレクトリを入れない
+typeset -U PATH CDPATH FPATH MANPATH
+
 
 # プロンプト設定
 case ${UID} in
@@ -325,6 +328,12 @@ esac
 # 環境固有の設定ファイルの読み込み
 [ -f ${HOME}/.zshrc.local ] && source ${HOME}/.zshrc.local
 
+# プラグインのロード
+[ -d ${HOME}/.zsh/plugins/zsh-completions/src ] && fpath=(${HOME}/.zsh/plugins/zsh-completions/src $fpath)
+[ -f ${HOME}/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source ${HOME}/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+[ -f ${HOME}/.zsh/plugins/zaw/zaw.zsh ] && source ${HOME}/.zsh/plugins/zaw/zaw.zsh
+
+
 # おみくじ
 if [ "${TMUX}" ] ; then
     which fortune >/dev/null 2>&1
@@ -333,12 +342,14 @@ if [ "${TMUX}" ] ; then
             which cowsay >/dev/null 2>&1
             if [ $? -eq 0 ] ; then
                 fortune ${HOME}/fortunes | cowsay
+                # fortune ${HOME}/fortunes | cowsay -W $((`tput cols` - 3))
             else
                 fortune ${HOME}/fortunes
             fi
         else
             if [ $? -eq 0 ] ; then
                 fortune -a | cowsay
+                # fortune -a | cowsay -W $((`tput cols` - 3))
             else
                 fortune -a
             fi
