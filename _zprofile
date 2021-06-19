@@ -18,15 +18,17 @@ fi
 [ -f ${HOME}/.zprofile.local ] && source ${HOME}/.zprofile.local
 
 # SSHエージェントに関する設定
-#SSH_AGENT_SCOKET=~/.ssh/agent
-#if [ ! -S "${SSH_AGENT_SCOKET}" ] ; then
-#    eval `ssh-agent -a ${SSH_AGENT_SCOKET} -s`
-#else
-#    SSH_AUTH_SOCK="${SSH_AGENT_SCOKET}"; export SSH_AUTH_SOCK;
-#    SSH_AGENT_PID=28062; export SSH_AGENT_PID;
-#fi
-#unset SSH_AGENT_SCOKET
+if type keychain > /dev/null ; then
+    eval `keychain --eval 2>/dev/null`
+fi
 
-# screen があれば自動起動
-#[ -n "`which screen 2> /dev/null`" ] && screen -x -RR
+# tmux があれば自動起動
+if type tmux > /dev/null ; then
+    if [ -z "${TMUX}" ] ; then
+        echo "You have tmux here."
+    fi
+elif type screen > /dev/null ; then
+    echo 'tmux is not found, but screen is.'
+    # screen -x -RR
+fi
 

@@ -44,27 +44,27 @@ dir:
 	install -d -m 755 ${HOME}/.zsh/plugins
 
 gitrepos: dir
-	git clone https://github.com/vim/vim.git \
+	-git clone https://github.com/vim/vim.git \
 		${HOME}/gitrepos/vim
-	git clone https://github.com/vim-jp/vimdoc-ja.git \
+	-git clone https://github.com/vim-jp/vimdoc-ja.git \
 		${HOME}/gitrepos/vimdoc-ja
-	git clone https://github.com/tmux/tmux.git \
+	-git clone https://github.com/tmux/tmux.git \
 		${HOME}/gitrepos/tmux
-	git clone https://github.com/zsh-users/zsh-completions \
+	-git clone https://github.com/zsh-users/zsh-completions \
 		${HOME}/gitrepos/zsh-completions
-	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
+	-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
 		${HOME}/gitrepos/zsh-syntax-highlighting
-	git clone https://github.com/zsh-users/zaw.git \
+	-git clone https://github.com/zsh-users/zaw.git \
 		${HOME}/gitrepos/zaw
 	#
 	install -d -m 755 ${HOME}/.vim/pack/vimdoc-ja/start
-	ln -s ${HOME}/gitrepos/vimdoc-ja \
+	-ln -s ${HOME}/gitrepos/vimdoc-ja \
 		${HOME}/.vim/pack/vimdoc-ja/start/vimdoc-ja
-	ln -s ${HOME}/gitrepos/zsh-completions \
+	-ln -s ${HOME}/gitrepos/zsh-completions \
 		${HOME}/.zsh/plugins/zsh-completions
-	ln -s ${HOME}/gitrepos/zsh-syntax-highlighting \
+	-ln -s ${HOME}/gitrepos/zsh-syntax-highlighting \
 		${HOME}/.zsh/plugins/zsh-syntax-highlighting
-	ln -s ${HOME}/gitrepos/zaw \
+	-ln -s ${HOME}/gitrepos/zaw \
 		${HOME}/.zsh/plugins/zaw
 
 diff:
