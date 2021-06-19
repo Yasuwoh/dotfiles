@@ -25,7 +25,7 @@ fi
 # tmux があれば自動起動
 if type tmux > /dev/null ; then
     if [ -z "${TMUX}" ] ; then
-        tmux a || tmux
+        echo "You have tmux here."
     fi
 elif type screen > /dev/null ; then
     echo 'tmux is not found, but screen is.'
