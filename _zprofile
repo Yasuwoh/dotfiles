@@ -22,13 +22,28 @@ if type keychain > /dev/null ; then
     eval `keychain --eval 2>/dev/null`
 fi
 
-# tmux があれば自動起動
+# example.com へのリーチャビリティ有無によって ONLINE と OFFLINE を設定する
+echo -en 'Now checking if you are online...'
+if curl -s http://example.com >/dev/null; then
+    export ONLINE=true
+    export OFFLINE=false
+    echo ' You are online!'
+else
+    export ONLINE=false
+    export OFFLINE=true
+    echo ' Unfortunately, you are offline.'
+fi
+
+# tmux があるか判定。
+# !!! 自動起動はしないこと！面倒なことになるよ！ !!!
 if type tmux > /dev/null ; then
-    if [ -z "${TMUX}" ] ; then
+    if tmux list-sessions >/dev/null 2>/dev/null ; then
+        echo "You have tmux here and an available session(s)."
+    else
         echo "You have tmux here."
     fi
+# tmux がなくても screen があるか判定
 elif type screen > /dev/null ; then
     echo 'tmux is not found, but screen is.'
-    # screen -x -RR
 fi
 
