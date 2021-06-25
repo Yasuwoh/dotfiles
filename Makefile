@@ -1,7 +1,7 @@
 all: help
 .PHONY: all gather deploy dir gitrepos diff clean help
 
-DIFF=-u
+DIFF=-u --color=always
 
 gather:
 	install -m 644 ${HOME}/.zshrc           _zshrc
@@ -12,6 +12,7 @@ gather:
 	install -m 644 ${HOME}/.pythonrc        _pythonrc 
 	install -m 644 ${HOME}/.gitconfig       _gitconfig
 	install -m 644 ${HOME}/.tmux.conf       _tmux.conf
+	install -m 644 ${HOME}/.dircolors       _dircolors
 
 deploy: dir
 	install -m 644 _zshrc           ${HOME}/.zshrc
@@ -22,6 +23,7 @@ deploy: dir
 	install -m 644 _pythonrc        ${HOME}/.pythonrc
 	install -m 644 _gitconfig       ${HOME}/.gitconfig
 	install -m 644 _tmux.conf       ${HOME}/.tmux.conf
+	install -m 644 _dircolors       ${HOME}/.dircolors
 	install -m 755 bin/get_tmux_loadavg	${HOME}/bin/get_tmux_loadavg
 	install -m 755 bin/get_tmux_free	${HOME}/bin/get_tmux_free
 	install -m 755 bin/cat_timestamp	${HOME}/bin/cat_timestamp
@@ -76,6 +78,7 @@ diff:
 	-diff $(DIFF) ${HOME}/.pythonrc         _pythonrc
 	-diff $(DIFF) ${HOME}/.gitconfig        _gitconfig
 	-diff $(DIFF) ${HOME}/.tmux.conf        _tmux.conf
+	-diff $(DIFF) ${HOME}/.dircolors        _dircolors
 
 clean:
 	make -C fortunes clean
