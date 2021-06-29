@@ -268,7 +268,6 @@ alias info='info --vi-keys'
 # 色設定
 ## ls
 eval `dircolors $HOME/.dircolors`
-export LS_COLORS
 zstyle ':completion:*' list-colors ${LS_COLORS}
 # ターミナル固有のカラー設定
 case "${TERM}" in
