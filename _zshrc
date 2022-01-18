@@ -263,6 +263,10 @@ alias less='less -R'
 alias kachi='make'
 #
 alias info='info --vi-keys'
+#
+if [ -n "${WSLENV}" ] ; then
+    alias here='explorer.exe .'
+fi
 
 
 # 色設定
