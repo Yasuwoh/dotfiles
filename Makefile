@@ -70,15 +70,15 @@ gitrepos: dir
 		${HOME}/.zsh/plugins/zaw
 
 diff:
-	-diff $(DIFF) ${HOME}/.zshrc            _zshrc
-	-diff $(DIFF) ${HOME}/.zprofile         _zprofile
-	-diff $(DIFF) ${HOME}/.screenrc         _screenrc
-	-diff $(DIFF) ${HOME}/.screen/layout    _screen_layout
-	-diff $(DIFF) ${HOME}/.vimrc            _vimrc
-	-diff $(DIFF) ${HOME}/.pythonrc         _pythonrc
-	-diff $(DIFF) ${HOME}/.gitconfig        _gitconfig
-	-diff $(DIFF) ${HOME}/.tmux.conf        _tmux.conf
-	-diff $(DIFF) ${HOME}/.dircolors        _dircolors
+	-diff $(DIFF) _zshrc             ${HOME}/.zshrc
+	-diff $(DIFF) _zprofile          ${HOME}/.zprofile
+	-diff $(DIFF) _screenrc          ${HOME}/.screenrc
+	-diff $(DIFF) _screen_layout     ${HOME}/.screen/layout
+	-diff $(DIFF) _vimrc             ${HOME}/.vimrc
+	-diff $(DIFF) _pythonrc          ${HOME}/.pythonrc
+	-diff $(DIFF) _gitconfig         ${HOME}/.gitconfig
+	-diff $(DIFF) _tmux.conf         ${HOME}/.tmux.conf
+	-diff $(DIFF) _dircolors         ${HOME}/.dircolors
 
 clean:
 	make -C fortunes clean
