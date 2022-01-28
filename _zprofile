@@ -14,6 +14,9 @@ if [ -f "$HOME/.pythonrc" ] ; then
     export PYTHONSTARTUP="$HOME/.pythonrc"
 fi
 
+# less のデフォルトオプションを指定
+export LESS="--mouse -isr"
+
 # ローカル用 zprofile があれば使う
 [ -f ${HOME}/.zprofile.local ] && source ${HOME}/.zprofile.local
 
