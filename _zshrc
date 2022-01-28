@@ -46,7 +46,7 @@ case ${UID} in
 ## スーパーユーザ以外の場合
 *)
     ## 通常プロンプト
-    PROMPT='%f[%F{red}%n%f@%F{green}%m%f %(1j.(%j).)%F{blue}%c%f${vcs_info_msg_0_}]%f%(0?.%%.%F{red}%%%f) '
+    PROMPT='%f[%F{red}%n%f@%F{green}%m%f %(1j.(%j).)%F{blue}%c%f${vcs_info_msg_0_//\#\#/#}]%f%(0?.%%.%F{red}%%%f) '
         ### [<ユーザ名>@<ホスト名> <バックグラウンドジョブ数(あれば)><カレントディレクトリ><VCS情報(後述)>]%
         ### 最後のプロンプト記号(%)は、直前の終了ステータス($?)が0以外だと赤くなる
     ## 右プロンプト
@@ -163,7 +163,7 @@ setopt prompt_subst
 ## リポジトリの変更をチェックするようにする。巨大なリポジトリでは重い。
 zstyle ':vcs_info:git:*' check-for-changes true
 ## ステージされたファイルがある場合、 %c エスケープに # を設定
-zstyle ':vcs_info:git:*' stagedstr '#'
+zstyle ':vcs_info:git:*' stagedstr '##'
 ## ステージされていないファイルがある場合、 %u エスケープに ! を設定
 zstyle ':vcs_info:git:*' unstagedstr '!'
 ## git でバージョン管理されていないファイルの存在およびスタッシュの数を知りたいので、ユーザフック関数を定義。
@@ -205,13 +205,13 @@ function +vi-vcs-git-stash-count() {
 #1行目はプロンプトで、2行目はハードステータスで使うことを想定。
 if [ "${TMUX}" ] ; then
     zstyle ':vcs_info:git:*' formats \
-        '/%F{red}%r%f:%F{green}%b%f%m%F{blue}%c%f%F{yellow}%u%f' \
-        '#[default] #[bg=green,fg=black]%s#[bg=red,fg=white] %r #[bg=blue,fg=white] %b #[bg=yellow,fg=black]%m%c%u#[default]'
+        '/%F{red}%r%f:%F{green}%b%f%m%F{yellow}%c%u%f' \
+        '#[default] #[bg=red,fg=white] %r #[bg=green,fg=white] %b #[bg=yellow,fg=white]%m%c%u'
 
     ## リポジトリ配下における、異常(e.g. コンフリクト)時の文字列を指定。1行目はプロンプトで、2行目はハードステータスで使うことを想定。
     zstyle ':vcs_info:git:*' actionformats \
-        '/%F{red}%r%f:%F{green}%b%f%m%F{blue}%c%f%F{yellow}%u%f-%F{red}%a%f' \
-        '#[default] #[bg=green,fg=black]%s#[bg=red,fg=white] %r #[bg=blue,fg=white] %b #[bg=yellow,fg=black]%m%c%u#[bg=red,fg=white]-%a#[default]'
+        '/%F{red}%r%f:%F{green}%b%f%m%F{blue}%c%f%F{yellow}%u%f-%F{red}%a%f' \
+        '#[default] #[bg=red,fg=white] %r #[bg=green,fg=white] %b #[bg=yellow,fg=white]%m%c%u#[bg=red,fg=white]-%a'
 else
     zstyle ':vcs_info:git:*' formats \
         '/%F{red}%r%f:%F{green}%b%f%m%F{blue}%c%f%F{yellow}%u%f' \
@@ -263,6 +263,10 @@ alias less='less -R'
 alias kachi='make'
 #
 alias info='info --vi-keys'
+#
+if [ -n "${WSLENV}" ] ; then
+    alias here='explorer.exe . ; true'
+fi
 
 
 # 色設定
@@ -292,7 +296,6 @@ screen*)
     function precmd_hardstatus() {
         # ハードステータス(ウィンドウタイトル)の設定
         echo -ne "\e]0;${USER}@${HOST%%.*}:${PWD}${vcs_info_msg_1_}\007"
-
     }
 
     function precmd_screen_title() {
