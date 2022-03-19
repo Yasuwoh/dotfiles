@@ -4,8 +4,8 @@
 import sys
 import argparse
 import logging
-import datetime
-import time
+from datetime import datetime
+from time import sleep
 import subprocess
 
 try:
@@ -31,10 +31,14 @@ def main():
     parser.add_argument ('--longitude')
     parser.add_argument ('--latitude')
     parser.add_argument ('--elevation', type = int)
+    parser.add_argument ('--verbose', action = 'store_true')
     parser.add_argument ('at', choices = CHOICES.keys() )
     parser.add_argument ('command', nargs = argparse.REMAINDER)
     args = parser.parse_args()
+    if args.verbose:
+        logging.getLogger().setLevel (logging.DEBUG)
     logging.debug ('args = %s' % args)
+
 
     place = ephem.city (args.city)
     if args.latitude is not None:
@@ -48,16 +52,18 @@ def main():
 
     star = CHOICES[args.at].star()
     timeat = getattr(place, CHOICES[args.at].attr) (star)
-    delta = timeat.datetime() - datetime.datetime.utcnow()
+    delta = timeat.datetime() - datetime.utcnow()
 
     logging.debug ('going at %s' % ephem.localtime(timeat))
+    logging.debug ('waiting for %d seconds' % delta.seconds)
 
     try:
-        time.sleep (delta.seconds)
+        sleep (delta.seconds)
         subprocess.run (args.command)
     except KeyboardInterrupt:
         sys.exit(1)
 
 if __name__ == '__main__':
+    logging.basicConfig ()
     main()
 
