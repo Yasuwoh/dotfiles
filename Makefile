@@ -24,15 +24,9 @@ deploy: dir
 	install -m 644 _gitconfig       ${HOME}/.gitconfig
 	install -m 644 _tmux.conf       ${HOME}/.tmux.conf
 	install -m 644 _dircolors       ${HOME}/.dircolors
-	install -m 755 bin/get_tmux_loadavg	${HOME}/bin/get_tmux_loadavg
-	install -m 755 bin/get_tmux_free	${HOME}/bin/get_tmux_free
-	install -m 755 bin/cat_timestamp	${HOME}/bin/cat_timestamp
-	install -m 755 bin/fetch_earthquake_data.py ${HOME}/bin/fetch_earthquake_data.py
-	install -m 755 bin/worlddate	${HOME}/bin/worlddate
 	make -C fortunes install
 
 dir:
-	install -d -m 755 ${HOME}/bin
 	install -d -m 755 ${HOME}/gitrepos
 	install -d -m 755 ${HOME}/.vim/pack
 	install -d -m 755 ${HOME}/.vimbackup
@@ -44,6 +38,8 @@ dir:
 	install -d -m 755 ${HOME}/.tmux/log
 	install -d -m 755 ${HOME}/.tmux/hardcopy
 	install -d -m 755 ${HOME}/.zsh/plugins
+	install -d -m 755 ${HOME}/.local
+	ln -sf `pwd`/bin ${HOME}/.local/bin
 
 gitrepos: dir
 	-git clone https://github.com/vim/vim.git \

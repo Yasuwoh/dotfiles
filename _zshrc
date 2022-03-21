@@ -205,12 +205,12 @@ function +vi-vcs-git-stash-count() {
 #1行目はプロンプトで、2行目はハードステータスで使うことを想定。
 if [ "${TMUX}" ] ; then
     zstyle ':vcs_info:git:*' formats \
-        '/%F{red}%r%f%F{green}%b%f%m%F{yellow}%c%u%f' \
+        '/%F{red}%r%f:%F{green}%b%f%m%F{yellow}%c%u%f' \
         '#[default] #[bg=red,fg=white] %r #[bg=green,fg=white] %b #[bg=yellow,fg=white]%m%c%u'
 
     ## リポジトリ配下における、異常(e.g. コンフリクト)時の文字列を指定。1行目はプロンプトで、2行目はハードステータスで使うことを想定。
     zstyle ':vcs_info:git:*' actionformats \
-        '/%F{red}%r%f%F{green}%b%f%m%F{blue}%c%f%F{yellow}%u%f-%F{red}%a%f' \
+        '/%F{red}%r%f:%F{green}%b%f%m%F{blue}%c%f%F{yellow}%u%f-%F{red}%a%f' \
         '#[default] #[bg=red,fg=white] %r #[bg=green,fg=white] %b #[bg=yellow,fg=white]%m%c%u#[bg=red,fg=white]-%a'
 else
     zstyle ':vcs_info:git:*' formats \
