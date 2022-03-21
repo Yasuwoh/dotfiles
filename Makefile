@@ -39,7 +39,7 @@ dir:
 	install -d -m 755 ${HOME}/.tmux/hardcopy
 	install -d -m 755 ${HOME}/.zsh/plugins
 	install -d -m 755 ${HOME}/.local
-	ln -sf `pwd`/bin ${HOME}/.local/bin
+	make -C bin install
 
 gitrepos: dir
 	-git clone https://github.com/vim/vim.git \
