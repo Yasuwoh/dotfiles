@@ -13,16 +13,16 @@ try:
 except ModuleNotFoundError:
     sys.exit (1)
 
-class choice:
+class Choice:
     def __init__ (self, star = None, attr = None):
         self.star = star
         self.attr = attr
 
 CHOICES = {
-        'sunrise' : choice (star = ephem.Sun,  attr = 'next_rising' ),
-        'sunset'  : choice (star = ephem.Sun,  attr = 'next_setting'),
-        'moonrise': choice (star = ephem.Moon, attr = 'next_rising' ),
-        'moonset' : choice (star = ephem.Moon, attr = 'next_setting'),
+        'sunrise' : Choice (star = ephem.Sun,  attr = 'next_rising' ),
+        'sunset'  : Choice (star = ephem.Sun,  attr = 'next_setting'),
+        'moonrise': Choice (star = ephem.Moon, attr = 'next_rising' ),
+        'moonset' : Choice (star = ephem.Moon, attr = 'next_setting'),
         }
 
 def main():
@@ -31,6 +31,7 @@ def main():
     parser.add_argument ('--longitude')
     parser.add_argument ('--latitude')
     parser.add_argument ('--elevation', type = int)
+    parser.add_argument ('--timeout', type = int, default = 0)
     parser.add_argument ('--verbose', action = 'store_true')
     parser.add_argument ('at', choices = CHOICES.keys() )
     parser.add_argument ('command', nargs = argparse.REMAINDER)
@@ -38,7 +39,6 @@ def main():
     if args.verbose:
         logging.getLogger().setLevel (logging.DEBUG)
     logging.debug ('args = %s' % args)
-
 
     place = ephem.city (args.city)
     if args.latitude is not None:
@@ -56,6 +56,9 @@ def main():
 
     logging.debug ('going at %s' % ephem.localtime(timeat))
     logging.debug ('waiting for %d seconds' % delta.seconds)
+
+    if 0 < args.timeout <= delta.seconds:
+        sys.exit(1)
 
     try:
         sleep (delta.seconds)
