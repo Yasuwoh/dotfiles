@@ -32,6 +32,7 @@ def main():
     parser.add_argument ('--latitude')
     parser.add_argument ('--elevation', type = int)
     parser.add_argument ('--timeout', type = int, default = 0)
+    parser.add_argument ('--delay', type = int, default = 0)
     parser.add_argument ('--verbose', action = 'store_true')
     parser.add_argument ('at', choices = CHOICES.keys() )
     parser.add_argument ('command', nargs = argparse.REMAINDER)
@@ -61,7 +62,7 @@ def main():
         sys.exit(1)
 
     try:
-        sleep (delta.seconds)
+        sleep (delta.seconds + args.delay)
         subprocess.run (args.command)
     except KeyboardInterrupt:
         sys.exit(1)
