@@ -264,6 +264,14 @@ alias kachi='make'
 #
 alias info='info --vi-keys'
 #
+which mail 2>&1 >/dev/null
+if [ $? != 0 ] ; then
+    which s-nail 2>&1 >/dev/null
+    if [ $? = 0 ] ; then
+        alias mail="s-nail"
+    fi
+fi
+#
 if [ -n "${WSLENV}" ] ; then
     alias here='explorer.exe . ; true'
 fi
