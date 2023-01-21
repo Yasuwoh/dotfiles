@@ -117,8 +117,8 @@ nnoremap k gk
 nnoremap <C-L> :nohl<CR><C-L>
 
 
-" GUIで動作していない場合、タイトルを自動設定
 if !has('gui_running')
+    " GUIで動作していない場合、タイトルを自動設定
     set title
     " ターミナルがscreenの場合のエスケープ文字列
     if &term =~ '^screen'
@@ -127,6 +127,8 @@ if !has('gui_running')
     endif
     " タイトル文字列
     set titlestring=%{GetTitleString()}
+    " フォント
+    set guifont=Cica:h14
 endif
 
 " clipboardが有効ならば、yankをクリップボードと連携
